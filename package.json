@@ -10,6 +10,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build-monaco": "gulp editor-distro",
     "test": "echo Please run any of the test scripts from the scripts folder.",
     "test-browser": "npx playwright install && node test/unit/browser/index.js",
     "test-browser-no-install": "node test/unit/browser/index.js",
@@ -33,7 +34,6 @@
     "watch-extensions": "node --max-old-space-size=8192 ./node_modules/gulp/bin/gulp.js watch-extensions watch-extension-media",
     "watch-extensionsd": "deemon npm run watch-extensions",
     "kill-watch-extensionsd": "deemon --kill npm run watch-extensions",
-    "precommit": "node build/hygiene.js",
     "gulp": "node --max-old-space-size=8192 ./node_modules/gulp/bin/gulp.js",
     "electron": "node build/lib/electron",
     "7z": "7z",
@@ -111,6 +111,7 @@
     "node-pty": "1.1.0-beta35",
     "open": "^10.1.2",
     "tas-client-umd": "0.2.0",
+    "tree-sitter": "file:tree-sitter-0.22.4.tgz",
     "undici": "^7.9.0",
     "v8-inspect-profiler": "^0.1.1",
     "vscode-oniguruma": "1.7.0",
