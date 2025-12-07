@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import './editor.all.js';
-import './standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
+//import './standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
 import './standalone/browser/inspectTokens/inspectTokens.js';
 import './standalone/browser/quickAccess/standaloneHelpQuickAccess.js';
 import './standalone/browser/quickAccess/standaloneGotoLineQuickAccess.js';
