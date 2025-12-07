@@ -6,7 +6,7 @@
 		"module": "esnext",
 		"allowSyntheticDefaultImports": true,
 		"lib": [
-			"ES2024",
+			"ES2019",
 			"DOM",
 			"DOM.Iterable"
 		],

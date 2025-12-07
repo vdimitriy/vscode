@@ -11,9 +11,10 @@
 		"moduleResolution": "nodenext",
 		"removeComments": false,
 		"preserveConstEnums": true,
-		"target": "ES2022",
+		"target": "ES2019",
 		"sourceMap": false,
-		"declaration": true
+		"declaration": true,
+		"skipLibCheck": true
 	},
 	"include": [
 		"typings/css.d.ts",
@@ -27,7 +28,8 @@
 		"vs/base/common/*",
 		"vs/base/browser/*",
 		"vs/platform/*/common/*",
-		"vs/platform/*/browser/*"
+		"vs/platform/*/browser/*",
+		"jq.fix/*"
 	],
 	"exclude": [
 		"node_modules/*",

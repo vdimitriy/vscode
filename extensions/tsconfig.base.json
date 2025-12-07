@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
 		"esModuleInterop": true,
-		"target": "ES2024",
+		"target": "ES2019",
 		"lib": [
-			"ES2024"
+			"ES2019"
 		],
 		"module": "commonjs",
 		"strict": true,
