@@ -153,6 +153,12 @@ export class CodeEditorContributions extends Disposable {
 		}
 
 		try {
+			// # jq
+			if (desc.ctor === undefined) {
+				console.log('Critical error: ', desc.id);
+			}
+			// # jq
+
 			const instance = this._instantiationService.createInstance(desc.ctor, this._editor);
 			this._instances.set(desc.id, instance);
 			if (typeof instance.restoreViewState === 'function' && desc.instantiation !== EditorContributionInstantiation.Eager) {
