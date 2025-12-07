@@ -144,8 +144,8 @@ export class EditorConfiguration extends Disposable implements IEditorConfigurat
 			outerHeight: this._containerObserver.getHeight(),
 			emptySelectionClipboard: browser.isWebKit || browser.isFirefox,
 			pixelRatio: PixelRatio.getInstance(getWindowById(this._targetWindowId, true).window).value,
-			// eslint-disable-next-line local/code-no-any-casts, @typescript-eslint/no-explicit-any
-			editContextSupported: typeof (globalThis as any).EditContext === 'function',
+			//editContextSupported: typeof (globalThis as any).EditContext === 'function',
+			editContextSupported: false, // в 1с этого нет
 			accessibilitySupport: (
 				this._accessibilityService.isScreenReaderOptimized()
 					? AccessibilitySupport.Enabled
@@ -237,7 +237,7 @@ function getExtraEditorClassName(): string {
 		extra += 'enable-user-select ';
 	} else {
 		// Use user-select: none in all browsers except Safari and native macOS WebView
-		extra += 'no-user-select ';
+		// extra += 'no-user-select '; // этого делать нельзя. если включить, то левый клик мыши всегда на горизонтальный скроллер щелкает
 	}
 	if (platform.isMacintosh) {
 		extra += 'mac ';
