@@ -74,7 +74,8 @@ export function addMatchMediaChangeListener(targetWindow: Window, query: string 
 	if (typeof query === 'string') {
 		query = targetWindow.matchMedia(query);
 	}
-	query.addEventListener('change', callback);
+	//query.addEventListener('change', callback);
+	query.addListener((e) => callback.call(query, e));
 }
 
 /** A zoom index, e.g. 1, 2, 3 */

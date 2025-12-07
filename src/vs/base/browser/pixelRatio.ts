@@ -6,6 +6,7 @@
 import { getWindowId, onDidUnregisterWindow } from './dom.js';
 import { Emitter, Event } from '../common/event.js';
 import { Disposable, markAsSingleton } from '../common/lifecycle.js';
+import { _addEventListener, _removeEventListener } from '../../jq.fix/mediaQueryList.fix.js';
 
 /**
  * See https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio#monitoring_screen_resolution_or_zoom_level_changes
@@ -27,10 +28,14 @@ class DevicePixelRatioMonitor extends Disposable {
 	}
 
 	private _handleChange(targetWindow: Window, fireEvent: boolean): void {
-		this._mediaQueryList?.removeEventListener('change', this._listener);
+		//this._mediaQueryList?.removeEventListener('change', this._listener);
+		if (this._mediaQueryList) {
+			_removeEventListener(this._mediaQueryList, 'change', this._listener);
+		}
 
 		this._mediaQueryList = targetWindow.matchMedia(`(resolution: ${targetWindow.devicePixelRatio}dppx)`);
-		this._mediaQueryList.addEventListener('change', this._listener);
+		//this._mediaQueryList.addEventListener('change', this._listener);
+		_addEventListener(this._mediaQueryList, 'change', this._listener);
 
 		if (fireEvent) {
 			this._onDidChange.fire();

@@ -19,6 +19,8 @@ import { hash } from '../common/hash.js';
 import { CodeWindow, ensureCodeWindow, mainWindow } from './window.js';
 import { isPointWithinTriangle } from '../common/numbers.js';
 import { IObservable, derived, derivedOpts, IReader, observableValue } from '../common/observable.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _addEventListener, _removeEventListener } from '../../jq.fix/mediaQueryList.fix.js';
 
 export interface IRegisteredCodeWindow {
 	readonly window: CodeWindow;
@@ -141,7 +143,8 @@ class DomListener implements IDisposable {
 		this._type = type;
 		this._handler = handler;
 		this._options = (options || false);
-		this._node.addEventListener(this._type, this._handler, this._options);
+		//this._node.addEventListener(this._type, this._handler, this._options);
+		_addEventListener(this._node, this._type, this._handler, this._options);
 	}
 
 	dispose(): void {
@@ -150,7 +153,8 @@ class DomListener implements IDisposable {
 			return;
 		}
 
-		this._node.removeEventListener(this._type, this._handler, this._options);
+		//this._node.removeEventListener(this._type, this._handler, this._options);
+		_removeEventListener(this._node, this._type, this._handler, this._options);
 
 		// Prevent leakers from holding on to the dom or handler func
 		this._node = null!;
