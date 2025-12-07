@@ -12,18 +12,28 @@ import { CodeDataTransfers, getPathForFile } from '../../platform/dnd/browser/dn
 
 export function toVSDataTransfer(dataTransfer: DataTransfer): VSDataTransfer {
 	const vsDataTransfer = new VSDataTransfer();
-	for (const item of dataTransfer.items) {
-		const type = item.type;
-		if (item.kind === 'string') {
-			const asStringValue = new Promise<string>(resolve => item.getAsString(resolve));
-			vsDataTransfer.append(type, createStringDataTransferItem(asStringValue));
-		} else if (item.kind === 'file') {
-			const file = item.getAsFile();
-			if (file) {
-				vsDataTransfer.append(type, createFileDataTransferItemFromFile(file));
+
+	if (typeof dataTransfer.items !== 'undefined') {
+		for (const item of dataTransfer.items) {
+			const type = item.type;
+			if (item.kind === 'string') {
+				const asStringValue = new Promise<string>(resolve => item.getAsString(resolve));
+				vsDataTransfer.append(type, createStringDataTransferItem(asStringValue));
+			} else if (item.kind === 'file') {
+				const file = item.getAsFile();
+				if (file) {
+					vsDataTransfer.append(type, createFileDataTransferItemFromFile(file));
+				}
 			}
 		}
 	}
+	// в 1с нет dataTransfer.items
+	else {
+		for (const type of dataTransfer.types) {
+			vsDataTransfer.append(type, createStringDataTransferItem(dataTransfer.getData(type)));
+		}
+	}
+
 	return vsDataTransfer;
 }
 
@@ -53,21 +63,23 @@ export function toExternalVSDataTransfer(sourceDataTransfer: DataTransfer, overw
 		if (overwriteUriList || !vsDataTransfer.has(Mimes.uriList)) {
 			// Otherwise, fallback to adding dragged resources to the uri list
 			const editorData: string[] = [];
-			for (const item of sourceDataTransfer.items) {
-				const file = item.getAsFile();
-				if (file) {
-					const path = getPathForFile(file);
-					try {
-						if (path) {
-							editorData.push(URI.file(path).toString());
-						} else {
-							editorData.push(URI.parse(file.name, true).toString());
-						}
-					} catch {
-						// Parsing failed. Leave out from list
-					}
-				}
-			}
+
+			// вставлять файлы не надо
+			// for (const item of sourceDataTransfer.items) {
+			// 	const file = item.getAsFile();
+			// 	if (file) {
+			// 		const path = getPathForFile(file);
+			// 		try {
+			// 			if (path) {
+			// 				editorData.push(URI.file(path).toString());
+			// 			} else {
+			// 				editorData.push(URI.parse(file.name, true).toString());
+			// 			}
+			// 		} catch {
+			// 			// Parsing failed. Leave out from list
+			// 		}
+			// 	}
+			// }
 
 			if (editorData.length) {
 				vsDataTransfer.replace(Mimes.uriList, createStringDataTransferItem(UriList.create(editorData)));
