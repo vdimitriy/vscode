@@ -1259,7 +1259,8 @@ class InnerMinimap extends Disposable {
 
 			if (isLeftClick || !isMouse) {
 				const minimapLineHeight = this._model.options.minimapLineHeight;
-				const internalOffsetY = (this._model.options.canvasInnerHeight / this._model.options.canvasOuterHeight) * e.offsetY;
+				//const internalOffsetY = (this._model.options.canvasInnerHeight / this._model.options.canvasOuterHeight) * e.offsetY;
+				const internalOffsetY = (this._model.options.canvasInnerHeight / this._model.options.canvasOuterHeight) * e.clientY;
 				const lineIndex = Math.floor(internalOffsetY / minimapLineHeight);
 
 				let lineNumber = lineIndex + this._lastRenderData.renderedLayout.startLineNumber - this._lastRenderData.renderedLayout.topPaddingLineCount;
