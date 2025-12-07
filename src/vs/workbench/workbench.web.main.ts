@@ -3,6 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../jq.fix/globalThis.fix.js';
+
 
 // ####################################
 // ###                              ###
@@ -56,9 +59,9 @@
 	//#endregion
 
 	// eslint-disable-next-line local/code-no-any-casts
-	const define: IGlobalDefine = (globalThis as any).define;
+	const define: IGlobalDefine = (_globalThis as any).define;
 	// eslint-disable-next-line local/code-no-any-casts
-	const require: { getConfig?(): any } | undefined = (globalThis as any).require;
+	const require: { getConfig?(): any } | undefined = (_globalThis as any).require;
 
 	if (!define || !require || typeof require.getConfig !== 'function') {
 		throw new Error('Expected global define() and require() functions. Please only load this module in an AMD context!');
@@ -71,16 +74,16 @@
 	if (!baseUrl.endsWith('/')) {
 		baseUrl = baseUrl + '/';
 	}
-	globalThis._VSCODE_FILE_ROOT = baseUrl;
+	_globalThis._VSCODE_FILE_ROOT = baseUrl;
 
 	const trustedTypesPolicy: Pick<import('trusted-types/lib/index.js').TrustedTypePolicy<{ createScriptURL(value: string): string }>, 'name' | 'createScriptURL'> | undefined = require.getConfig().trustedTypesPolicy;
 	if (trustedTypesPolicy) {
-		globalThis._VSCODE_WEB_PACKAGE_TTP = trustedTypesPolicy;
+		_globalThis._VSCODE_WEB_PACKAGE_TTP = trustedTypesPolicy;
 	}
 
 	const promise = new Promise(resolve => {
 		// eslint-disable-next-line local/code-no-any-casts
-		(globalThis as any).__VSCODE_WEB_ESM_PROMISE = resolve;
+		(_globalThis as any).__VSCODE_WEB_ESM_PROMISE = resolve;
 	});
 
 	define('vs/web-api', [], (): ILoaderPlugin => {
