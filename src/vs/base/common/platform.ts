@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as nls from '../../nls.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 export const LANGUAGE_DEFAULT = 'en';
 
@@ -49,7 +51,7 @@ export interface INodeProcess {
 
 declare const process: INodeProcess;
 
-const $globalThis: any = globalThis;
+const $globalThis: any = _globalThis;
 
 let nodeProcess: INodeProcess | undefined = undefined;
 if (typeof $globalThis.vscode !== 'undefined' && typeof $globalThis.vscode.process !== 'undefined') {

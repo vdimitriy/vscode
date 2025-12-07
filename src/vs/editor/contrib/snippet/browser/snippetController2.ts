@@ -26,6 +26,8 @@ import { ILogService } from '../../../../platform/log/common/log.js';
 import { ISnippetEdit, SnippetSession } from './snippetSession.js';
 import { TextModelEditSource } from '../../../common/textModelEditSource.js';
 import { IObservable, observableValue } from '../../../../base/common/observable.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 
 export interface ISnippetInsertOptions {
 	overwriteBefore: number;
@@ -273,7 +275,7 @@ export class SnippetController2 implements IEditorContribution {
 			this._choiceCompletions.enable();
 
 			// trigger suggest with the special choice completion provider
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				showSimpleSuggestions(this._editor, this._choiceCompletions!.provider);
 			});
 		}

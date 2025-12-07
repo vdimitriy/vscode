@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../../jq.fix/globalThis.fix.js';
 import * as dom from '../../../../base/browser/dom.js';
 import { parentOriginHash } from '../../../../base/browser/iframe.js';
 import { mainWindow } from '../../../../base/browser/window.js';
@@ -187,7 +189,7 @@ export class WebWorkerExtensionHost extends Disposable implements IExtensionHost
 					type: event.data.type,
 					data: {
 						workerUrl: FileAccess.asBrowserUri('vs/workbench/api/worker/extensionHostWorkerMain.js').toString(true),
-						fileRoot: globalThis._VSCODE_FILE_ROOT,
+						fileRoot: _globalThis._VSCODE_FILE_ROOT,
 						nls: {
 							messages: getNLSMessages(),
 							language: getNLSLanguage()

@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../../../jq.fix/globalThis.fix.js';
 import { ChannelFactory, IChannelHandler, API, SimpleTypedRpcConnection, MakeSideAsync } from './rpc.js';
 
 export function registerDebugChannel<T extends { channelId: string } & API>(
@@ -10,7 +12,7 @@ export function registerDebugChannel<T extends { channelId: string } & API>(
 	createClient: () => T['client'],
 ): SimpleTypedRpcConnection<MakeSideAsync<T['host']>> {
 	// eslint-disable-next-line local/code-no-any-casts
-	const g = globalThis as any as GlobalObj;
+	const g = _globalThis as any as GlobalObj;
 
 	let queuedNotifications: unknown[] = [];
 	let curHost: IHost | undefined = undefined;

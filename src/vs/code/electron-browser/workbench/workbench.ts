@@ -3,6 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
+
 /* eslint-disable no-restricted-globals */
 
 (async function () {
@@ -289,7 +292,7 @@
 
 		// Compute base URL and set as global
 		const baseUrl = new URL(`${fileUriFromPath(configuration.appRoot, { isWindows: safeProcess.platform === 'win32', scheme: 'vscode-file', fallbackAuthority: 'vscode-app' })}/out/`);
-		globalThis._VSCODE_FILE_ROOT = baseUrl.toString();
+		_globalThis._VSCODE_FILE_ROOT = baseUrl.toString();
 
 		// Dev only: CSS import map tricks
 		setupCSSImportMaps<T>(configuration, baseUrl);
@@ -389,8 +392,8 @@
 	}
 
 	function setupNLS<T extends ISandboxConfiguration>(configuration: T): void {
-		globalThis._VSCODE_NLS_MESSAGES = configuration.nls.messages;
-		globalThis._VSCODE_NLS_LANGUAGE = configuration.nls.language;
+		_globalThis._VSCODE_NLS_MESSAGES = configuration.nls.messages;
+		_globalThis._VSCODE_NLS_LANGUAGE = configuration.nls.language;
 
 		let language = configuration.nls.language || 'en';
 		if (language === 'zh-tw') {
@@ -452,7 +455,7 @@
 		if (Array.isArray(configuration.cssModules) && configuration.cssModules.length > 0) {
 			performance.mark('code/willAddCssLoader');
 
-			globalThis._VSCODE_CSS_LOAD = function (url) {
+			_globalThis._VSCODE_CSS_LOAD = function (url) {
 				const link = document.createElement('link');
 				link.setAttribute('rel', 'stylesheet');
 				link.setAttribute('type', 'text/css');
@@ -464,7 +467,8 @@
 			const importMap: { imports: Record<string, string> } = { imports: {} };
 			for (const cssModule of configuration.cssModules) {
 				const cssUrl = new URL(cssModule, baseUrl).href;
-				const jsSrc = `globalThis._VSCODE_CSS_LOAD('${cssUrl}');\n`;
+				//const jsSrc = `globalThis._VSCODE_CSS_LOAD('${cssUrl}');\n`;
+				const jsSrc = `(typeof globalThis !== 'undefined' ? globalThis : self)._VSCODE_CSS_LOAD('${cssUrl}');\n`;
 				const blob = new Blob([jsSrc], { type: 'application/javascript' });
 				importMap.imports[cssUrl] = URL.createObjectURL(blob);
 			}

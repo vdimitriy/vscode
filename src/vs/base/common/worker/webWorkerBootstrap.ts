@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 import { IWebWorkerServerRequestHandler, IWebWorkerServerRequestHandlerFactory, WebWorkerServer } from './webWorker.js';
 
 type MessageEvent = {
@@ -23,11 +25,11 @@ export function initialize<T extends IWebWorkerServerRequestHandler>(factory: IW
 	initialized = true;
 
 	const webWorkerServer = new WebWorkerServer<T>(
-		msg => globalThis.postMessage(msg),
+		msg => _globalThis.postMessage(msg),
 		(workerServer) => factory(workerServer)
 	);
 
-	globalThis.onmessage = (e: MessageEvent) => {
+	_globalThis.onmessage = (e: MessageEvent) => {
 		webWorkerServer.onmessage(e.data);
 	};
 
@@ -35,7 +37,7 @@ export function initialize<T extends IWebWorkerServerRequestHandler>(factory: IW
 }
 
 export function bootstrapWebWorker(factory: IWebWorkerServerRequestHandlerFactory<any>) {
-	globalThis.onmessage = (_e: MessageEvent) => {
+	_globalThis.onmessage = (_e: MessageEvent) => {
 		// Ignore first message in this case and initialize if not yet initialized
 		if (!initialized) {
 			initialize(factory);

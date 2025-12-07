@@ -8,7 +8,7 @@ import { timeout } from '../../../../../base/common/async.js';
 import { cancelOnDispose } from '../../../../../base/common/cancellation.js';
 import { createHotClass } from '../../../../../base/common/hotReloadHelpers.js';
 import { Disposable, toDisposable } from '../../../../../base/common/lifecycle.js';
-import { ITransaction, autorun, derived, derivedDisposable, derivedObservableWithCache, observableFromEvent, observableSignal, observableValue, runOnChange, runOnChangeWithStore, transaction, waitForState } from '../../../../../base/common/observable.js';
+import { IObservable, ITransaction, autorun, derived, derivedDisposable, derivedObservableWithCache, observableFromEvent, observableSignal, observableValue, runOnChange, runOnChangeWithStore, transaction, waitForState } from '../../../../../base/common/observable.js';
 import { isEqual } from '../../../../../base/common/resources.js';
 import { isUndefined } from '../../../../../base/common/types.js';
 import { localize } from '../../../../../nls.js';
@@ -45,7 +45,8 @@ import { InlineCompletionContextKeys } from './inlineCompletionContextKeys.js';
 export class InlineCompletionsController extends Disposable {
 	private static readonly _instances = new Set<InlineCompletionsController>();
 
-	public static hot = createHotClass(this);
+	//public static hot = createHotClass(this);
+	public static hot: IObservable<typeof InlineCompletionsController>;
 	public static ID = 'editor.contrib.inlineCompletionsController';
 
 	/**
@@ -456,3 +457,4 @@ export class InlineCompletionsController extends Disposable {
 		this._view.dispose();
 	}
 }
+InlineCompletionsController.hot = createHotClass(InlineCompletionsController);

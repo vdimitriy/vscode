@@ -34,6 +34,8 @@ import { IRange } from '../../../../editor/common/core/range.js';
 import { IEditorContribution } from '../../../../editor/common/editorCommon.js';
 import { GlyphMarginLane, IModelDecorationOptions, IModelDecorationsChangeAccessor, IModelDeltaDecoration, ITextModel, OverviewRulerLane, TrackedRangeStickiness } from '../../../../editor/common/model.js';
 import { IModelService } from '../../../../editor/common/services/model.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 import { localize } from '../../../../nls.js';
 import { getFlatContextMenuActions } from '../../../../platform/actions/browser/menuEntryActionViewItem.js';
 import { IMenuService, MenuId } from '../../../../platform/actions/common/actions.js';
@@ -799,7 +801,7 @@ abstract class TitleLensContentWidget {
 	private viewZoneId?: string;
 
 	constructor(private readonly editor: ICodeEditor) {
-		queueMicrotask(() => {
+		_queueMicrotask(() => {
 			this.applyStyling();
 			this.editor.addContentWidget(this);
 		});

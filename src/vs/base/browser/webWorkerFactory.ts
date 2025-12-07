@@ -13,15 +13,17 @@ import { coalesce } from '../common/arrays.js';
 import { getNLSLanguage, getNLSMessages } from '../../nls.js';
 import { Emitter } from '../common/event.js';
 import { getMonacoEnvironment } from './browser.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 // Reuse the trusted types policy defined from worker bootstrap
 // when available.
 // Refs https://github.com/microsoft/vscode/issues/222193
 let ttPolicy: ReturnType<typeof createTrustedTypesPolicy>;
 // eslint-disable-next-line local/code-no-any-casts
-if (typeof self === 'object' && self.constructor && self.constructor.name === 'DedicatedWorkerGlobalScope' && (globalThis as any).workerttPolicy !== undefined) {
+if (typeof self === 'object' && self.constructor && self.constructor.name === 'DedicatedWorkerGlobalScope' && (_globalThis as any).workerttPolicy !== undefined) {
 	// eslint-disable-next-line local/code-no-any-casts
-	ttPolicy = (globalThis as any).workerttPolicy;
+	ttPolicy = (_globalThis as any).workerttPolicy;
 } else {
 	ttPolicy = createTrustedTypesPolicy('defaultWorkerFactory', { createScriptURL: value => value });
 }
@@ -59,7 +61,7 @@ function getWorker(descriptor: IWebWorkerDescriptor, id: number): Worker | Promi
 }
 
 function getWorkerBootstrapUrl(label: string, workerScriptUrl: string): string {
-	if (/^((http:)|(https:)|(file:))/.test(workerScriptUrl) && workerScriptUrl.substring(0, globalThis.origin.length) !== globalThis.origin) {
+	if (/^((http:)|(https:)|(file:))/.test(workerScriptUrl) && workerScriptUrl.substring(0, _globalThis.origin.length) !== _globalThis.origin) {
 		// this is the cross-origin case
 		// i.e. the webpage is running at a different origin than where the scripts are loaded from
 	} else {
@@ -82,14 +84,23 @@ function getWorkerBootstrapUrl(label: string, workerScriptUrl: string): string {
 	// in values are not breaking our script. The values may contain string
 	// terminating characters (such as ' or ").
 	const blob = new Blob([coalesce([
+		// `/*${label}*/`,
+		// `globalThis._VSCODE_NLS_MESSAGES = ${JSON.stringify(getNLSMessages())};`,
+		// `globalThis._VSCODE_NLS_LANGUAGE = ${JSON.stringify(getNLSLanguage())};`,
+		// `globalThis._VSCODE_FILE_ROOT = ${JSON.stringify(globalThis._VSCODE_FILE_ROOT)};`,
+		// `const ttPolicy = globalThis.trustedTypes?.createPolicy('defaultWorkerFactory', { createScriptURL: value => value });`,
+		// `globalThis.workerttPolicy = ttPolicy;`,
+		// `await import(ttPolicy?.createScriptURL(${JSON.stringify(workerScriptUrl)}) ?? ${JSON.stringify(workerScriptUrl)});`,
+		// `globalThis.postMessage({ type: 'vscode-worker-ready' });`,
+		// `/*${label}*/`
 		`/*${label}*/`,
-		`globalThis._VSCODE_NLS_MESSAGES = ${JSON.stringify(getNLSMessages())};`,
-		`globalThis._VSCODE_NLS_LANGUAGE = ${JSON.stringify(getNLSLanguage())};`,
-		`globalThis._VSCODE_FILE_ROOT = ${JSON.stringify(globalThis._VSCODE_FILE_ROOT)};`,
-		`const ttPolicy = globalThis.trustedTypes?.createPolicy('defaultWorkerFactory', { createScriptURL: value => value });`,
-		`globalThis.workerttPolicy = ttPolicy;`,
+		`(typeof globalThis !== 'undefined' ? globalThis : self)._VSCODE_NLS_MESSAGES = ${JSON.stringify(getNLSMessages())};`,
+		`(typeof globalThis !== 'undefined' ? globalThis : self)._VSCODE_NLS_LANGUAGE = ${JSON.stringify(getNLSLanguage())};`,
+		`(typeof globalThis !== 'undefined' ? globalThis : self)._VSCODE_FILE_ROOT = ${JSON.stringify(_globalThis._VSCODE_FILE_ROOT)};`,
+		`const ttPolicy = (typeof globalThis !== 'undefined' ? globalThis : self).trustedTypes?.createPolicy('defaultWorkerFactory', { createScriptURL: value => value });`,
+		`(typeof globalThis !== 'undefined' ? globalThis : self).workerttPolicy = ttPolicy;`,
 		`await import(ttPolicy?.createScriptURL(${JSON.stringify(workerScriptUrl)}) ?? ${JSON.stringify(workerScriptUrl)});`,
-		`globalThis.postMessage({ type: 'vscode-worker-ready' });`,
+		`(typeof globalThis !== 'undefined' ? globalThis : self).postMessage({ type: 'vscode-worker-ready' });`,
 		`/*${label}*/`
 	]).join('')], { type: 'application/javascript' });
 	return URL.createObjectURL(blob);

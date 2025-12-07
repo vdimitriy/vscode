@@ -5,10 +5,13 @@
 
 import { CodeWindow, mainWindow } from './window.js';
 import { Emitter } from '../common/event.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 class WindowManager {
 
-	static readonly INSTANCE = new WindowManager();
+	//static readonly INSTANCE = new WindowManager();
+	static INSTANCE: WindowManager;
 
 	// --- Zoom Level
 
@@ -65,6 +68,7 @@ class WindowManager {
 		return (targetWindow as CodeWindow).vscodeWindowId;
 	}
 }
+WindowManager.INSTANCE = new WindowManager();
 
 export function addMatchMediaChangeListener(targetWindow: Window, query: string | MediaQueryList, callback: (this: MediaQueryList, ev: MediaQueryListEvent) => unknown): void {
 	if (typeof query === 'string') {
@@ -101,7 +105,8 @@ export const onDidChangeFullscreen = WindowManager.INSTANCE.onDidChangeFullscree
 const userAgent = navigator.userAgent;
 
 export const isFirefox = (userAgent.indexOf('Firefox') >= 0);
-export const isWebKit = (userAgent.indexOf('AppleWebKit') >= 0);
+//export const isWebKit = (userAgent.indexOf('AppleWebKit') >= 0);
+export const isWebKit = false; // это 1с детка. От этого только проблемы (этот флаг расчитывает на наличие свойств которых в 1с нет).
 export const isChrome = (userAgent.indexOf('Chrome') >= 0);
 export const isSafari = (!isChrome && (userAgent.indexOf('Safari') >= 0));
 export const isWebkitWebView = (!isChrome && !isSafari && isWebKit);
@@ -158,5 +163,5 @@ interface IGlobalWithMonacoEnvironment {
 	MonacoEnvironment?: IMonacoEnvironment;
 }
 export function getMonacoEnvironment(): IMonacoEnvironment | undefined {
-	return (globalThis as IGlobalWithMonacoEnvironment).MonacoEnvironment;
+	return (_globalThis as IGlobalWithMonacoEnvironment).MonacoEnvironment;
 }

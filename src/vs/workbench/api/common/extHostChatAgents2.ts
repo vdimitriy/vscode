@@ -34,6 +34,8 @@ import { ExtHostLanguageModels } from './extHostLanguageModels.js';
 import { ExtHostLanguageModelTools } from './extHostLanguageModelTools.js';
 import * as typeConvert from './extHostTypeConverters.js';
 import * as extHostTypes from './extHostTypes.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../jq.fix/queueMicrotask.fix.js';
 
 export class ChatAgentResponseStream {
 
@@ -91,7 +93,7 @@ export class ChatAgentResponseStream {
 				// does the actual send to the main thread
 				const newLen = sendQueue.push(handle !== undefined ? [chunk, handle] : chunk);
 				if (newLen === 1) {
-					queueMicrotask(() => {
+					_queueMicrotask(() => {
 						const toNotify = notify;
 						notify = [];
 						that._proxy.$handleProgressChunk(that._request.requestId, sendQueue).finally(() => {
@@ -929,7 +931,7 @@ class ExtHostChatAgent {
 				return;
 			}
 			updateScheduled = true;
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				this._proxy.$updateAgent(this._handle, {
 					icon: !this._iconPath ? undefined :
 						this._iconPath instanceof URI ? this._iconPath :

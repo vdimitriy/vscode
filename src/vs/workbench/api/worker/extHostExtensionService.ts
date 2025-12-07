@@ -13,6 +13,8 @@ import { ExtensionRuntime } from '../common/extHostTypes.js';
 import { timeout } from '../../../base/common/async.js';
 import { ExtHostConsoleForwarder } from './extHostConsoleForwarder.js';
 import { extname } from '../../../base/common/path.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 class WorkerRequireInterceptor extends RequireInterceptor {
 
@@ -141,7 +143,7 @@ export class ExtHostExtensionService extends AbstractExtHostExtensionService {
 		}
 
 		const deadline = Date.now() + waitTimeout;
-		while (Date.now() < deadline && !('__jsDebugIsReady' in globalThis)) {
+		while (Date.now() < deadline && !('__jsDebugIsReady' in _globalThis)) {
 			await timeout(10);
 		}
 	}

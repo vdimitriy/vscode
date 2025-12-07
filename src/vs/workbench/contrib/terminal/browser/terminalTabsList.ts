@@ -56,6 +56,8 @@ import { ICommandService } from '../../../../platform/commands/common/commands.j
 import { IStorageService, StorageScope } from '../../../../platform/storage/common/storage.js';
 import { TerminalStorageKeys } from '../common/terminalStorageKeys.js';
 import { isObject } from '../../../../base/common/types.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 
 const $ = DOM.$;
 
@@ -328,7 +330,7 @@ class TerminalTabsRenderer extends Disposable implements IListRenderer<ITerminal
 	getContainerWidthCachedForTask(): number {
 		if (this._cachedContainerWidth === -1) {
 			this._cachedContainerWidth = this._container.clientWidth;
-			queueMicrotask(() => this._cachedContainerWidth = -1);
+			_queueMicrotask(() => this._cachedContainerWidth = -1);
 		}
 		return this._cachedContainerWidth;
 	}

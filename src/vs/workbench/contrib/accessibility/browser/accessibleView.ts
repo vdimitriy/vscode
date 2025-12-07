@@ -26,6 +26,8 @@ import { ITextModelContentProvider, ITextModelService } from '../../../../editor
 import { AccessibilityHelpNLS } from '../../../../editor/common/standaloneStrings.js';
 import { CodeActionController } from '../../../../editor/contrib/codeAction/browser/codeActionController.js';
 import { FloatingEditorToolbar } from '../../../../editor/contrib/floatingMenu/browser/floatingMenu.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 import { localize } from '../../../../nls.js';
 import { AccessibleContentProvider, AccessibleViewProviderId, AccessibleViewType, ExtensionContentProvider, IAccessibleViewService, IAccessibleViewSymbol, isIAccessibleViewContentProvider } from '../../../../platform/accessibility/browser/accessibleView.js';
 import { ACCESSIBLE_VIEW_SHOWN_STORAGE_PREFIX, IAccessibilityService } from '../../../../platform/accessibility/common/accessibility.js';
@@ -315,7 +317,7 @@ export class AccessibleView extends Disposable implements ITextModelContentProvi
 
 		if (position) {
 			// Context view takes time to show up, so we need to wait for it to show up before we can set the position
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				this._editorWidget.revealLine(position.lineNumber);
 				this._editorWidget.setSelection({ startLineNumber: position.lineNumber, startColumn: position.column, endLineNumber: position.lineNumber, endColumn: position.column });
 			});
@@ -772,7 +774,7 @@ export class AccessibleView extends Disposable implements ITextModelContentProvi
 				() => {
 					this._contextViewService.hideContextView();
 					// HACK: Delay to allow the context view to hide #207638
-					queueMicrotask(() => this.show(lastProvider));
+					_queueMicrotask(() => this.show(lastProvider));
 				},
 				lastProvider.verbositySettingKey
 			);
@@ -784,14 +786,14 @@ export class AccessibleView extends Disposable implements ITextModelContentProvi
 				() => {
 					this._contextViewService.hideContextView();
 					// HACK: Delay to allow the context view to hide #207638
-					queueMicrotask(() => this.show(lastProvider));
+					_queueMicrotask(() => this.show(lastProvider));
 				},
 			);
 		}
 		this._contextViewService.hideContextView();
 		// HACK: Delay to allow the context view to hide #186514
 		if (accessibleViewHelpProvider) {
-			queueMicrotask(() => this.show(accessibleViewHelpProvider, undefined, true));
+			_queueMicrotask(() => this.show(accessibleViewHelpProvider, undefined, true));
 		}
 	}
 

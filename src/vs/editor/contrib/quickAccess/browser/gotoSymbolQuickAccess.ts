@@ -48,7 +48,8 @@ export abstract class AbstractGotoSymbolQuickAccessProvider extends AbstractEdit
 
 	static PREFIX = '@';
 	static SCOPE_PREFIX = ':';
-	static PREFIX_BY_CATEGORY = `${this.PREFIX}${this.SCOPE_PREFIX}`;
+	//static PREFIX_BY_CATEGORY = `${this.PREFIX}${this.SCOPE_PREFIX}`;
+	static PREFIX_BY_CATEGORY: string;
 
 	protected override readonly options: IGotoSymbolQuickAccessProviderOptions;
 
@@ -445,6 +446,7 @@ export abstract class AbstractGotoSymbolQuickAccessProvider extends AbstractEdit
 		return token.isCancellationRequested ? [] : model.asListOfDocumentSymbols();
 	}
 }
+AbstractGotoSymbolQuickAccessProvider.PREFIX_BY_CATEGORY = `${AbstractGotoSymbolQuickAccessProvider.PREFIX}${AbstractGotoSymbolQuickAccessProvider.SCOPE_PREFIX}`;
 
 // #region NLS Helpers
 

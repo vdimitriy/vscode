@@ -33,6 +33,8 @@ import { IExtHostRpcService } from './extHostRpcService.js';
 import { ExtHostTestItemCollection, TestItemImpl, TestItemRootImpl, toItemFromContext } from './extHostTestItem.js';
 import * as Convert from './extHostTypeConverters.js';
 import { FileCoverage, TestRunProfileBase, TestRunRequest } from './extHostTypes.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../jq.fix/queueMicrotask.fix.js';
 
 interface ControllerInfo {
 	controller: vscode.TestController;
@@ -1340,7 +1342,7 @@ export class TestRunProfileImpl extends TestRunProfileBase implements vscode.Tes
 
 		// we send the initial profile publish out on the next microtask so that
 		// initially setting the isDefault value doesn't overwrite a user-configured value
-		queueMicrotask(() => {
+		_queueMicrotask(() => {
 			if (this.#initialPublish) {
 				this.#proxy.$publishTestRunProfile(this.#initialPublish);
 				this.#initialPublish = undefined;

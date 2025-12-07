@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { INodeProcess } from './platform.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 function _definePolyfillMarks(timeOrigin?: number) {
 	const _data: [string?, number?] = [];
@@ -108,7 +110,7 @@ function _factory(sharedObj: any) {
 	return sharedObj.MonacoPerformanceMarks;
 }
 
-const perf = _factory(globalThis);
+const perf = _factory(_globalThis);
 
 export const mark: (name: string, markOptions?: { startTime?: number }) => void = perf.mark;
 

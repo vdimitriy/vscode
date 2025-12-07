@@ -7,6 +7,8 @@ import { VSBuffer, encodeBase64 } from '../../../base/common/buffer.js';
 import { Emitter, Event, PauseableEmitter } from '../../../base/common/event.js';
 import { Disposable, DisposableStore } from '../../../base/common/lifecycle.js';
 import { ISocket, SocketCloseEvent, SocketDiagnostics, SocketDiagnosticsEventType } from '../../../base/parts/ipc/common/ipc.net.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../jq.fix/queueMicrotask.fix.js';
 
 export const makeRawSocketHeaders = (path: string, query: string, deubgLabel: string) => {
 	// https://tools.ietf.org/html/rfc6455#section-4
@@ -86,7 +88,7 @@ export abstract class ManagedSocket extends Disposable implements ISocket {
 
 	public onData: Event<VSBuffer> = (...args) => {
 		if (this.pausableDataEmitter.isPaused) {
-			queueMicrotask(() => this.pausableDataEmitter.resume());
+			_queueMicrotask(() => this.pausableDataEmitter.resume());
 		}
 		return this.pausableDataEmitter.event(...args);
 	};

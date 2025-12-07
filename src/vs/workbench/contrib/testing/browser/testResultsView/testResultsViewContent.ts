@@ -42,6 +42,8 @@ import { DiffContentProvider, IPeekOutputRenderer, MarkdownTestMessagePeek, Plai
 import { equalsSubject, getSubjectTestItem, InspectSubject, MessageSubject, TaskSubject, TestOutputSubject } from './testResultsSubject.js';
 import { OutputPeekTree } from './testResultsTree.js';
 import './testResultsViewContent.css';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../../jq.fix/queueMicrotask.fix.js';
 
 /** UI state that can be saved/restored, used to give a nice experience when switching stack frames */
 export interface ITestResultsViewContentUiState {
@@ -335,7 +337,7 @@ export class TestResultsViewContent extends Disposable {
 		}));
 
 		if (initialSpitWidth) {
-			queueMicrotask(() => this.splitView.resizeView(this.diffViewIndex, initialSpitWidth));
+			_queueMicrotask(() => this.splitView.resizeView(this.diffViewIndex, initialSpitWidth));
 		}
 	}
 

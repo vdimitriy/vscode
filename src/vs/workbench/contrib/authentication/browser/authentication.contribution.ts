@@ -26,6 +26,8 @@ import { IMcpRegistry } from '../../mcp/common/mcpRegistryTypes.js';
 import { autorun } from '../../../../base/common/observable.js';
 import { IAuthenticationService } from '../../../services/authentication/common/authentication.js';
 import { Event } from '../../../../base/common/event.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 
 const codeExchangeProxyCommand = CommandsRegistry.registerCommand('workbench.getCodeExchangeProxyEndpoints', function (accessor, _) {
 	const environmentService = accessor.get(IBrowserWorkbenchEnvironmentService);
@@ -189,7 +191,7 @@ class AuthenticationMcpContribution extends Disposable implements IWorkbenchCont
 			// Read the collections observable to register dependency
 			this._mcpRegistry.collections.read(reader);
 			// Schedule cleanup for next tick to avoid running during observable updates
-			queueMicrotask(() => this._cleanupRemovedMcpServers());
+			_queueMicrotask(() => this._cleanupRemovedMcpServers());
 		}));
 		this._register(
 			Event.any(

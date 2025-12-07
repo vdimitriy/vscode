@@ -9,6 +9,8 @@ import { createMonacoEditorAPI } from './standalone/browser/standaloneEditor.js'
 import { createMonacoLanguagesAPI } from './standalone/browser/standaloneLanguages.js';
 import { FormattingConflicts } from './contrib/format/browser/format.js';
 import { getMonacoEnvironment } from '../base/browser/browser.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../jq.fix/globalThis.fix.js';
 
 // Set defaults for standalone editor
 EditorOptions.wrappingIndent.defaultValue = WrappingIndent.None;
@@ -49,7 +51,7 @@ interface GlobalWithAMD {
 }
 
 const monacoEnvironment = getMonacoEnvironment();
-const globalWithAMD = globalThis as GlobalWithAMD;
+const globalWithAMD = _globalThis as GlobalWithAMD;
 if (monacoEnvironment?.globalAPI || (typeof globalWithAMD.define === 'function' && globalWithAMD.define.amd)) {
 	globalWithAMD.monaco = api;
 }

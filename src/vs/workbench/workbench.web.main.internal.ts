@@ -193,10 +193,12 @@ import { Disposable } from '../base/common/lifecycle.js';
 import { GroupOrientation } from './services/editor/common/editorGroupsService.js';
 import { UserDataSyncResourceProviderService } from '../platform/userDataSync/common/userDataSyncResourceProvider.js';
 import { RemoteAuthorityResolverError, RemoteAuthorityResolverErrorCode } from '../platform/remote/common/remoteAuthorityResolver.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../jq.fix/globalThis.fix.js';
 
 // TODO@esm remove me once we stop supporting our web-esm-bridge
 // eslint-disable-next-line local/code-no-any-casts
-if ((globalThis as any).__VSCODE_WEB_ESM_PROMISE) {
+if ((_globalThis as any).__VSCODE_WEB_ESM_PROMISE) {
 	const exports = {
 
 		// Factory
@@ -221,9 +223,9 @@ if ((globalThis as any).__VSCODE_WEB_ESM_PROMISE) {
 		Menu: Menu
 	};
 	// eslint-disable-next-line local/code-no-any-casts
-	(globalThis as any).__VSCODE_WEB_ESM_PROMISE(exports);
+	(_globalThis as any).__VSCODE_WEB_ESM_PROMISE(exports);
 	// eslint-disable-next-line local/code-no-any-casts
-	delete (globalThis as any).__VSCODE_WEB_ESM_PROMISE;
+	delete (_globalThis as any).__VSCODE_WEB_ESM_PROMISE;
 }
 
 export {

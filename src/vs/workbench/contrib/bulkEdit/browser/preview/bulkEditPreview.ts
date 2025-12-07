@@ -26,6 +26,8 @@ import { generateUuid } from '../../../../../base/common/uuid.js';
 import { SnippetParser } from '../../../../../editor/contrib/snippet/browser/snippetParser.js';
 import { MicrotaskDelay } from '../../../../../base/common/symbols.js';
 import { Schemas } from '../../../../../base/common/network.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../../jq.fix/queueMicrotask.fix.js';
 
 export class CheckedStates<T extends object> {
 
@@ -443,7 +445,7 @@ export class BulkEditPreviewProvider implements ITextModelContentProvider {
 			// this is a little weird but otherwise editors and other cusomers
 			// will dispose my models before they should be disposed...
 			// And all of this is off the eventloop to prevent endless recursion
-			queueMicrotask(async () => {
+			_queueMicrotask(async () => {
 				this._disposables.add(await this._textModelResolverService.createModelReference(model!.uri));
 			});
 		}

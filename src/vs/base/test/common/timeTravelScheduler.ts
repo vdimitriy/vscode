@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 import { compareBy, numberComparator, tieBreakComparators } from '../../common/arrays.js';
 import { Emitter, Event } from '../../common/event.js';
 import { Disposable, IDisposable } from '../../common/lifecycle.js';
@@ -193,15 +195,15 @@ export async function runWithFakedTimers<T>(options: { useFakeTimers?: boolean; 
 }
 
 export const originalGlobalValues = {
-	setTimeout: globalThis.setTimeout.bind(globalThis),
-	clearTimeout: globalThis.clearTimeout.bind(globalThis),
-	setInterval: globalThis.setInterval.bind(globalThis),
-	clearInterval: globalThis.clearInterval.bind(globalThis),
-	setImmediate: globalThis.setImmediate?.bind(globalThis),
-	clearImmediate: globalThis.clearImmediate?.bind(globalThis),
-	requestAnimationFrame: globalThis.requestAnimationFrame?.bind(globalThis),
-	cancelAnimationFrame: globalThis.cancelAnimationFrame?.bind(globalThis),
-	Date: globalThis.Date,
+	setTimeout: _globalThis.setTimeout.bind(_globalThis),
+	clearTimeout: _globalThis.clearTimeout.bind(_globalThis),
+	setInterval: _globalThis.setInterval.bind(_globalThis),
+	clearInterval: _globalThis.clearInterval.bind(_globalThis),
+	setImmediate: _globalThis.setImmediate?.bind(_globalThis),
+	clearImmediate: _globalThis.clearImmediate?.bind(_globalThis),
+	requestAnimationFrame: _globalThis.requestAnimationFrame?.bind(_globalThis),
+	cancelAnimationFrame: _globalThis.cancelAnimationFrame?.bind(_globalThis),
+	Date: _globalThis.Date,
 };
 
 function setTimeout(scheduler: Scheduler, handler: TimerHandler, timeout: number = 0): IDisposable {
@@ -266,8 +268,8 @@ function setInterval(scheduler: Scheduler, handler: TimerHandler, interval: numb
 
 function overwriteGlobals(scheduler: Scheduler): IDisposable {
 	// eslint-disable-next-line local/code-no-any-casts
-	globalThis.setTimeout = ((handler: TimerHandler, timeout?: number) => setTimeout(scheduler, handler, timeout)) as any;
-	globalThis.clearTimeout = (timeoutId: any) => {
+	_globalThis.setTimeout = ((handler: TimerHandler, timeout?: number) => setTimeout(scheduler, handler, timeout)) as any;
+	_globalThis.clearTimeout = (timeoutId: any) => {
 		if (typeof timeoutId === 'object' && timeoutId && 'dispose' in timeoutId) {
 			timeoutId.dispose();
 		} else {
@@ -276,8 +278,8 @@ function overwriteGlobals(scheduler: Scheduler): IDisposable {
 	};
 
 	// eslint-disable-next-line local/code-no-any-casts
-	globalThis.setInterval = ((handler: TimerHandler, timeout: number) => setInterval(scheduler, handler, timeout)) as any;
-	globalThis.clearInterval = (timeoutId: any) => {
+	_globalThis.setInterval = ((handler: TimerHandler, timeout: number) => setInterval(scheduler, handler, timeout)) as any;
+	_globalThis.clearInterval = (timeoutId: any) => {
 		if (typeof timeoutId === 'object' && timeoutId && 'dispose' in timeoutId) {
 			timeoutId.dispose();
 		} else {
@@ -285,11 +287,11 @@ function overwriteGlobals(scheduler: Scheduler): IDisposable {
 		}
 	};
 
-	globalThis.Date = createDateClass(scheduler);
+	_globalThis.Date = createDateClass(scheduler);
 
 	return {
 		dispose: () => {
-			Object.assign(globalThis, originalGlobalValues);
+			Object.assign(_globalThis, originalGlobalValues);
 		}
 	};
 }

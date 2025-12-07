@@ -16,6 +16,8 @@ import { Disposable, IDisposable, MutableDisposable } from '../../../../../base/
 import { IME } from '../../../../../base/common/ime.js';
 import { ViewController } from '../../../view/viewController.js';
 import { IScreenReaderContent } from './screenReaderUtils.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../../../jq.fix/globalThis.fix.js';
 
 export class SimpleScreenReaderContent extends Disposable implements IScreenReaderContent {
 
@@ -178,7 +180,7 @@ export class SimpleScreenReaderContent extends Disposable implements IScreenRead
 		if (!textContent) {
 			return;
 		}
-		const range = new globalThis.Range();
+		const range = new _globalThis.Range();
 		range.setStart(textContent, selectionOffsetStart);
 		range.setEnd(textContent, selectionOffsetEnd);
 		return {

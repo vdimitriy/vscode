@@ -3,6 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../jq.fix/queueMicrotask.fix.js';
+
 export namespace inputLatency {
 
 	// Measurements are recorded as totals, the average is calculated when the final measurements
@@ -42,7 +45,7 @@ export namespace inputLatency {
 		performance.mark('inputlatency/start');
 		performance.mark('keydown/start');
 		state.keydown = EventPhase.InProgress;
-		queueMicrotask(markKeyDownEnd);
+		_queueMicrotask(markKeyDownEnd);
 	}
 
 	/**
@@ -73,7 +76,7 @@ export namespace inputLatency {
 			// it looks like we didn't receive a `beforeinput`
 			onBeforeInput();
 		}
-		queueMicrotask(markInputEnd);
+		_queueMicrotask(markInputEnd);
 	}
 
 	function markInputEnd() {
@@ -108,7 +111,7 @@ export namespace inputLatency {
 			// Only measure the first render after keyboard input
 			performance.mark('render/start');
 			state.render = EventPhase.InProgress;
-			queueMicrotask(markRenderEnd);
+			_queueMicrotask(markRenderEnd);
 			/** Schedule Task B. See explanation in {@link recordIfFinished} */
 			scheduleRecordIfFinishedTask();
 		}

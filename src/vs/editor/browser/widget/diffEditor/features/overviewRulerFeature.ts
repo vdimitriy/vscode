@@ -22,8 +22,10 @@ import { defaultInsertColor, defaultRemoveColor, diffInserted, diffOverviewRuler
 import { IThemeService } from '../../../../../platform/theme/common/themeService.js';
 
 export class OverviewRulerFeature extends Disposable {
-	private static readonly ONE_OVERVIEW_WIDTH = 15;
-	public static readonly ENTIRE_DIFF_OVERVIEW_WIDTH = this.ONE_OVERVIEW_WIDTH * 2;
+	// private static readonly ONE_OVERVIEW_WIDTH = 15;
+	// public static readonly ENTIRE_DIFF_OVERVIEW_WIDTH = this.ONE_OVERVIEW_WIDTH * 2;
+	static ONE_OVERVIEW_WIDTH: number;
+	static ENTIRE_DIFF_OVERVIEW_WIDTH: number;
 	public readonly width = OverviewRulerFeature.ENTIRE_DIFF_OVERVIEW_WIDTH;
 
 	constructor(
@@ -169,3 +171,5 @@ export class OverviewRulerFeature extends Disposable {
 		}));
 	}
 }
+OverviewRulerFeature.ONE_OVERVIEW_WIDTH = 15;
+OverviewRulerFeature.ENTIRE_DIFF_OVERVIEW_WIDTH = OverviewRulerFeature.ONE_OVERVIEW_WIDTH * 2;

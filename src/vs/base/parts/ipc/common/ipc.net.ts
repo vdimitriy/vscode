@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 import { VSBuffer } from '../../../common/buffer.js';
 import { Emitter, Event } from '../../../common/event.js';
 import { Disposable, DisposableStore, IDisposable } from '../../../common/lifecycle.js';
@@ -623,7 +625,7 @@ export class BufferedEmitter<T> {
 				// it is important to deliver these messages after this call, but before
 				// other messages have a chance to be received (to guarantee in order delivery)
 				// that's why we're using here queueMicrotask and not other types of timeouts
-				queueMicrotask(() => this._deliverMessages());
+				_queueMicrotask(() => this._deliverMessages());
 			},
 			onDidRemoveLastListener: () => {
 				this._hasListeners = false;

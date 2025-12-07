@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { IDisposable } from './lifecycle.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 export function isHotReloadEnabled(): boolean {
 	// return env && !!env['VSCODE_DEV_DEBUG'];
@@ -36,7 +38,7 @@ function registerGlobalHotReloadHandler() {
 		hotReloadHandlers = new Set();
 	}
 
-	const g = globalThis as unknown as GlobalThisAddition;
+	const g = _globalThis as unknown as GlobalThisAddition;
 	if (!g.$hotReload_applyNewExports) {
 		g.$hotReload_applyNewExports = args => {
 			const args2 = { config: { mode: undefined }, ...args };

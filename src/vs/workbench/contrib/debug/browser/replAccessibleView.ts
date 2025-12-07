@@ -14,6 +14,8 @@ import { ContextKeyExpr } from '../../../../platform/contextkey/common/contextke
 import { Emitter, Event } from '../../../../base/common/event.js';
 import { Disposable } from '../../../../base/common/lifecycle.js';
 import { Position } from '../../../../editor/common/core/position.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 
 export class ReplAccessibleView implements IAccessibleViewImplementation {
 	priority = 70;
@@ -85,7 +87,7 @@ class ReplOutputAccessibleViewProvider extends Disposable implements IAccessible
 		// Children are resolved async, so we need to update the content when they are resolved.
 		this._register(this.onDidResolveChildren(() => {
 			this._onDidChangeContent.fire();
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				if (this._focusedElement) {
 					const position = this._elementPositionMap.get(this._focusedElement.getId());
 					if (position) {

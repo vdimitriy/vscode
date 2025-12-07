@@ -19,6 +19,8 @@ import { resolveNLSConfiguration } from './vs/base/node/nls.js';
 import { getUNCHost, addUNCHostToAllowlist } from './vs/base/node/unc.js';
 import { INLSConfiguration } from './vs/nls.js';
 import { NativeParsedArgs } from './vs/platform/environment/common/argv.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from './vs/jq.fix/globalThis.fix.js';
 
 perf.mark('code/didStartMain');
 
@@ -583,7 +585,7 @@ function registerListeners(): void {
 	 * the app-ready event. We listen very early for open-file and remember this upon startup as path to open.
 	 */
 	const macOpenFiles: string[] = [];
-	(globalThis as { macOpenFiles?: string[] }).macOpenFiles = macOpenFiles;
+	(_globalThis as { macOpenFiles?: string[] }).macOpenFiles = macOpenFiles;
 	app.on('open-file', function (event, path) {
 		macOpenFiles.push(path);
 	});
@@ -603,7 +605,7 @@ function registerListeners(): void {
 		app.on('open-url', onOpenUrl);
 	});
 
-	(globalThis as { getOpenUrls?: () => string[] }).getOpenUrls = function () {
+	(_globalThis as { getOpenUrls?: () => string[] }).getOpenUrls = function () {
 		app.removeListener('open-url', onOpenUrl);
 
 		return openUrls;

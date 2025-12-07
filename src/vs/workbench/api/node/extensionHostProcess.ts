@@ -28,6 +28,8 @@ import { IDisposable } from '../../../base/common/lifecycle.js';
 import '../common/extHost.common.services.js';
 import './extHost.node.services.js';
 import { createRequire } from 'node:module';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 const require = createRequire(import.meta.url);
 
 interface ParsedExtHostArgs {
@@ -139,7 +141,7 @@ function patchProcess(allowExit: boolean) {
 // NodeJS since v21 defines navigator as a global object. This will likely surprise many extensions and potentially break them
 // because `navigator` has historically often been used to check if running in a browser (vs running inside NodeJS)
 if (!args.supportGlobalNavigator) {
-	Object.defineProperty(globalThis, 'navigator', {
+	Object.defineProperty(_globalThis, 'navigator', {
 		get: () => {
 			onUnexpectedExternalError(new PendingMigrationError('navigator is now a global in nodejs, please see https://aka.ms/vscode-extensions/navigator for additional info on this error.'));
 			return undefined;

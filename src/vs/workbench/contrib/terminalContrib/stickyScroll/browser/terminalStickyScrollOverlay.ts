@@ -30,6 +30,8 @@ import { terminalStrings } from '../../../terminal/common/terminalStrings.js';
 import { TerminalStickyScrollSettingId } from '../common/terminalStickyScrollConfiguration.js';
 import { terminalStickyScrollBackground, terminalStickyScrollHoverBackground } from './terminalStickyScrollColorRegistry.js';
 import { XtermAddonImporter } from '../../../terminal/browser/xterm/xtermAddonImporter.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../../jq.fix/queueMicrotask.fix.js';
 
 const enum OverlayState {
 	/** Initial state/disabled by the alt buffer. */
@@ -214,7 +216,7 @@ export class TerminalStickyScrollOverlay extends Disposable {
 			return;
 		}
 		this._isRefreshQueued = true;
-		queueMicrotask(() => {
+		_queueMicrotask(() => {
 			this._refreshNow();
 			this._isRefreshQueued = false;
 		});

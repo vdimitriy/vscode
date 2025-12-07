@@ -10,6 +10,8 @@ import { Emitter } from '../../../../../base/common/event.js';
 import { IMarkdownString } from '../../../../../base/common/htmlContent.js';
 import { Disposable, IDisposable } from '../../../../../base/common/lifecycle.js';
 import { autorun, IObservable, observableValue } from '../../../../../base/common/observable.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../../jq.fix/queueMicrotask.fix.js';
 import { localize } from '../../../../../nls.js';
 import { IChatRendererContent } from '../../common/chatViewModel.js';
 import { ChatTreeItem } from '../chat.js';
@@ -72,7 +74,7 @@ export abstract class ChatCollapsibleContentPart extends Disposable implements I
 			this.updateAriaLabel(collapseButton.element, typeof referencesLabel === 'string' ? referencesLabel : referencesLabel.value, this.isExpanded());
 
 			if (this._domNode?.isConnected) {
-				queueMicrotask(() => {
+				_queueMicrotask(() => {
 					this._onDidChangeHeight.fire();
 				});
 			}

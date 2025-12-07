@@ -566,7 +566,8 @@ export interface IDimension {
 
 export class Dimension implements IDimension {
 
-	static readonly None = new Dimension(0, 0);
+	//static readonly None = new Dimension(0, 0);
+	static None: Dimension;
 
 	constructor(
 		readonly width: number,
@@ -603,6 +604,7 @@ export class Dimension implements IDimension {
 		return a.width === b.width && a.height === b.height;
 	}
 }
+Dimension.None = new Dimension(0, 0);
 
 export interface IDomPosition {
 	readonly left: number;

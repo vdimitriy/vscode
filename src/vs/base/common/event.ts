@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../jq.fix/queueMicrotask.fix.js';
 import { CancelablePromise } from './async.js';
 import { CancellationToken } from './cancellation.js';
 import { diffSets } from './collections.js';
@@ -291,7 +293,7 @@ export namespace Event {
 					} else {
 						if (handle === undefined) {
 							handle = null;
-							queueMicrotask(doFire);
+							_queueMicrotask(doFire);
 						}
 					}
 				});
@@ -803,9 +805,10 @@ export interface EmitterOptions {
 
 export class EventProfiling {
 
-	static readonly all = new Set<EventProfiling>();
-
-	private static _idPool = 0;
+	// static readonly all = new Set<EventProfiling>();
+	// private static _idPool = 0;
+	static all: Set<EventProfiling>;
+	static _idPool: number;
 
 	readonly name: string;
 	public listenerCount: number = 0;
@@ -835,6 +838,8 @@ export class EventProfiling {
 		}
 	}
 }
+EventProfiling.all = new Set<EventProfiling>();
+EventProfiling._idPool = 0;
 
 let _globalLeakWarningThreshold = -1;
 export function setGlobalLeakWarningThreshold(n: number): IDisposable {
@@ -849,7 +854,8 @@ export function setGlobalLeakWarningThreshold(n: number): IDisposable {
 
 class LeakageMonitor {
 
-	private static _idPool = 1;
+	//private static _idPool = 1;
+	static _idPool: number;
 
 	private _stacks: Map<string, number> | undefined;
 	private _warnCountdown: number = 0;
@@ -913,6 +919,7 @@ class LeakageMonitor {
 		return topStack;
 	}
 }
+LeakageMonitor._idPool = 1;
 
 class Stacktrace {
 
@@ -1056,7 +1063,7 @@ export class Emitter<T> {
 			if (this._listeners) {
 				if (_enableDisposeWithListenerWarning) {
 					const listeners = this._listeners;
-					queueMicrotask(() => {
+					_queueMicrotask(() => {
 						forEachListener(listeners, l => l.stack?.print());
 					});
 				}
@@ -1339,6 +1346,7 @@ export class AsyncEmitter<T extends IWaitUntil> extends Emitter<T> {
 			// wait until and then wait for all thenables to resolve
 			Object.freeze(thenables);
 
+			// @ts-ignore
 			await Promise.allSettled(thenables).then(values => {
 				for (const value of values) {
 					if (value.status === 'rejected') {
@@ -1444,7 +1452,7 @@ export class MicrotaskEmitter<T> extends Emitter<T> {
 
 		this._queuedEvents.push(event);
 		if (this._queuedEvents.length === 1) {
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				if (this._mergeFn) {
 					super.fire(this._mergeFn(this._queuedEvents));
 				} else {

@@ -31,6 +31,8 @@ import { ICommonModel, WorkerTextModelSyncServer } from './textModelSync/textMod
 import { ISerializedStringEdit, StringEdit } from '../core/edits/stringEdit.js';
 import { StringText } from '../core/text/abstractText.js';
 import { ensureDependenciesAreSet } from '../core/text/positionToOffset.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 export interface IMirrorModel extends IMirrorTextModel {
 	readonly uri: URI;
@@ -533,7 +535,7 @@ declare function importScripts(...urls: string[]): void;
 
 if (typeof importScripts === 'function') {
 	// Running in a web worker
-	globalThis.monaco = createMonacoBaseAPI();
+	_globalThis.monaco = createMonacoBaseAPI();
 }
 
 /**

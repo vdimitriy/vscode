@@ -18,9 +18,11 @@ import { product } from './bootstrap-meta.js';
 import * as perf from './vs/base/common/performance.js';
 import { INLSConfiguration } from './vs/nls.js';
 import { IServerAPI } from './vs/server/node/remoteExtensionHostAgentServer.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from './vs/jq.fix/globalThis.fix.js';
 
 perf.mark('code/server/start');
-(globalThis as { vscodeServerStartTime?: number }).vscodeServerStartTime = performance.now();
+(_globalThis as { vscodeServerStartTime?: number }).vscodeServerStartTime = performance.now();
 
 // Do a quick parse to determine if a server or the cli needs to be started
 const parsedArgs = minimist(process.argv.slice(2), {
@@ -138,7 +140,7 @@ if (shouldSpawnCli) {
 		console.log(output);
 
 		perf.mark('code/server/started');
-		(globalThis as { vscodeServerListenTime?: number }).vscodeServerListenTime = performance.now();
+		(_globalThis as { vscodeServerListenTime?: number }).vscodeServerListenTime = performance.now();
 
 		await getRemoteExtensionHostAgentServer();
 	});

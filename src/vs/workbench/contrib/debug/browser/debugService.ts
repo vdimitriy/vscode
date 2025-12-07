@@ -19,6 +19,8 @@ import { URI, URI as uri } from '../../../../base/common/uri.js';
 import { generateUuid } from '../../../../base/common/uuid.js';
 import { isCodeEditor } from '../../../../editor/browser/editorBrowser.js';
 import { ITextModel } from '../../../../editor/common/model.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 import * as nls from '../../../../nls.js';
 import { ICommandService } from '../../../../platform/commands/common/commands.js';
 import { IConfigurationService } from '../../../../platform/configuration/common/configuration.js';
@@ -216,7 +218,7 @@ export class DebugService implements IDebugService {
 	}
 
 	private initContextKeys(contextKeyService: IContextKeyService): void {
-		queueMicrotask(() => {
+		_queueMicrotask(() => {
 			contextKeyService.bufferChangeEvents(() => {
 				this.debugType = CONTEXT_DEBUG_TYPE.bindTo(contextKeyService);
 				this.debugState = CONTEXT_DEBUG_STATE.bindTo(contextKeyService);

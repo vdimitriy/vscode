@@ -19,6 +19,8 @@ import type * as undiciType from 'undici-types';
 import type * as tlsType from 'tls';
 import { lookupKerberosAuthorization } from '../../../platform/request/node/requestService.js';
 import * as proxyAgent from '@vscode/proxy-agent';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 const require = createRequire(import.meta.url);
 const http = require('http');
@@ -124,13 +126,13 @@ const unsafeHeaders = [
 
 function patchGlobalFetch(params: ProxyAgentParams, configProvider: ExtHostConfigProvider, mainThreadTelemetry: MainThreadTelemetryShape, initData: IExtensionHostInitData, resolveProxyURL: (url: string) => Promise<string | undefined>, disposables: DisposableStore) {
 	// eslint-disable-next-line local/code-no-any-casts
-	if (!(globalThis as any).__vscodeOriginalFetch) {
-		const originalFetch = globalThis.fetch;
+	if (!(_globalThis as any).__vscodeOriginalFetch) {
+		const originalFetch = _globalThis.fetch;
 		// eslint-disable-next-line local/code-no-any-casts
-		(globalThis as any).__vscodeOriginalFetch = originalFetch;
+		(_globalThis as any).__vscodeOriginalFetch = originalFetch;
 		const patchedFetch = proxyAgent.createFetchPatch(params, originalFetch, resolveProxyURL);
 		// eslint-disable-next-line local/code-no-any-casts
-		(globalThis as any).__vscodePatchedFetch = patchedFetch;
+		(_globalThis as any).__vscodePatchedFetch = patchedFetch;
 		let useElectronFetch = false;
 		if (!initData.remote.isRemote) {
 			useElectronFetch = configProvider.getConfiguration('http').get<boolean>('electronFetch', useElectronFetchDefault);
@@ -141,7 +143,7 @@ function patchGlobalFetch(params: ProxyAgentParams, configProvider: ExtHostConfi
 			}));
 		}
 		// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-		globalThis.fetch = async function fetch(input: string | URL | Request, init?: RequestInit) {
+		_globalThis.fetch = async function fetch(input: string | URL | Request, init?: RequestInit) {
 			function getRequestProperty(name: keyof Request & keyof RequestInit) {
 				return init && name in init ? init[name] : typeof input === 'object' && 'cache' in input ? input[name] : undefined;
 			}

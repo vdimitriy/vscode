@@ -8,6 +8,8 @@ import * as platform from './platform.js';
 import { equalsIgnoreCase, startsWithIgnoreCase } from './strings.js';
 import { URI } from './uri.js';
 import * as paths from './path.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
 
 export namespace Schemas {
 
@@ -350,8 +352,8 @@ class FileAccessImpl {
 			return uriOrModule;
 		}
 
-		if (globalThis._VSCODE_FILE_ROOT) {
-			const rootUriOrPath = globalThis._VSCODE_FILE_ROOT;
+		if (_globalThis._VSCODE_FILE_ROOT) {
+			const rootUriOrPath = _globalThis._VSCODE_FILE_ROOT;
 
 			// File URL (with scheme)
 			if (/^\w[\w\d+.-]*:\/\//.test(rootUriOrPath)) {
@@ -414,7 +416,7 @@ export namespace COI {
 	 */
 	export function addSearchParam(urlOrSearch: URLSearchParams | Record<string, string>, coop: boolean, coep: boolean): void {
 		// eslint-disable-next-line local/code-no-any-casts
-		if (!(<any>globalThis).crossOriginIsolated) {
+		if (!(<any>_globalThis).crossOriginIsolated) {
 			// depends on the current context being COI
 			return;
 		}

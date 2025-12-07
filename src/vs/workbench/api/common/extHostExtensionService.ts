@@ -48,6 +48,8 @@ import { StopWatch } from '../../../base/common/stopwatch.js';
 import { isCI, setTimeout0 } from '../../../base/common/platform.js';
 import { IExtHostManagedSockets } from './extHostManagedSockets.js';
 import { Dto } from '../../services/extensions/common/proxyIdentifier.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 interface ITestRunner {
 	/** Old test runner API, as exported from `vscode/lib/testrunner` */
@@ -594,7 +596,7 @@ export abstract class AbstractExtHostExtensionService extends Disposable impleme
 			try {
 				activationTimesBuilder.activateCallStart();
 				logService.trace(`ExtensionService#_callActivateOptional ${extensionId.value}`);
-				const activateResult: Promise<IExtensionAPI> = extensionModule.activate.apply(globalThis, [context]);
+				const activateResult: Promise<IExtensionAPI> = extensionModule.activate.apply(_globalThis, [context]);
 				activationTimesBuilder.activateCallStop();
 
 				activationTimesBuilder.activateResolveStart();

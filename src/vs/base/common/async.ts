@@ -12,6 +12,10 @@ import { URI } from './uri.js';
 import { setTimeout0 } from './platform.js';
 import { MicrotaskDelay } from './symbols.js';
 import { Lazy } from './lazy.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../jq.fix/globalThis.fix.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../jq.fix/queueMicrotask.fix.js';
 
 export function isThenable<T>(obj: unknown): obj is Promise<T> {
 	return !!obj && typeof (obj as unknown as Promise<T>).then === 'function';
@@ -343,7 +347,7 @@ const timeoutDeferred = (timeout: number, fn: () => void): IScheduledLater => {
 
 const microtaskDeferred = (fn: () => void): IScheduledLater => {
 	let scheduled = true;
-	queueMicrotask(() => {
+	_queueMicrotask(() => {
 		if (scheduled) {
 			scheduled = false;
 			fn();
@@ -1076,7 +1080,7 @@ export class IntervalTimer implements IDisposable {
 		this.disposable = undefined;
 	}
 
-	cancelAndSet(runner: () => void, interval: number, context = globalThis): void {
+	cancelAndSet(runner: () => void, interval: number, context = _globalThis): void {
 		if (this.isDisposed) {
 			throw new BugIndicatingError(`Calling 'cancelAndSet' on a disposed IntervalTimer`);
 		}
@@ -1448,7 +1452,7 @@ export let runWhenGlobalIdle: (callback: (idle: IdleDeadline) => void, timeout?:
 export let _runWhenIdle: (targetWindow: IdleApi, callback: (idle: IdleDeadline) => void, timeout?: number) => IDisposable;
 
 (function () {
-	const safeGlobal: any = globalThis;
+	const safeGlobal: any = _globalThis;
 	if (typeof safeGlobal.requestIdleCallback !== 'function' || typeof safeGlobal.cancelIdleCallback !== 'function') {
 		_runWhenIdle = (_targetWindow, runner, timeout?) => {
 			setTimeout0(() => {
@@ -1489,7 +1493,7 @@ export let _runWhenIdle: (targetWindow: IdleApi, callback: (idle: IdleDeadline) 
 			};
 		};
 	}
-	runWhenGlobalIdle = (runner, timeout) => _runWhenIdle(globalThis, runner, timeout);
+	runWhenGlobalIdle = (runner, timeout) => _runWhenIdle(_globalThis, runner, timeout);
 })();
 
 export abstract class AbstractIdleValue<T> {
@@ -1543,7 +1547,7 @@ export abstract class AbstractIdleValue<T> {
 export class GlobalIdleValue<T> extends AbstractIdleValue<T> {
 
 	constructor(executor: () => T) {
-		super(globalThis, executor);
+		super(_globalThis, executor);
 	}
 }
 
@@ -2020,7 +2024,7 @@ export class AsyncIterableObject<T> implements AsyncIterable<T> {
 		this._onReturn = onReturn;
 		this._onStateChanged = new Emitter<void>();
 
-		queueMicrotask(async () => {
+		_queueMicrotask(async () => {
 			const writer: AsyncIterableEmitter<T> = {
 				emitOne: (item) => this.emitOne(item),
 				emitMany: (items) => this.emitMany(items),
@@ -2370,7 +2374,7 @@ export class AsyncIterableProducer<T> implements AsyncIterable<T> {
 	private readonly _producerConsumer = new ProducerConsumer<IteratorResult<T>>();
 
 	constructor(executor: AsyncIterableExecutor<T>, private readonly _onReturn?: () => void) {
-		queueMicrotask(async () => {
+		_queueMicrotask(async () => {
 			const p = executor({
 				emitOne: value => this._producerConsumer.produce({ ok: true, value: { done: false, value: value } }),
 				emitMany: values => {
@@ -2420,7 +2424,8 @@ export class AsyncIterableProducer<T> implements AsyncIterable<T> {
 		});
 	}
 
-	public static EMPTY = AsyncIterableProducer.fromArray<any>([]);
+	// public static EMPTY = AsyncIterableProducer.fromArray<any>([]);
+	public static EMPTY: AsyncIterableProducer<any>;
 
 	public static map<T, R>(iterable: AsyncIterable<T>, mapFn: (item: T) => R): AsyncIterableProducer<R> {
 		return new AsyncIterableProducer<R>(async (emitter) => {
@@ -2487,6 +2492,8 @@ export class AsyncIterableProducer<T> implements AsyncIterable<T> {
 		return this._iterator;
 	}
 }
+AsyncIterableProducer.EMPTY = AsyncIterableProducer.fromArray<any>([]);
+
 
 export class CancelableAsyncIterableProducer<T> extends AsyncIterableProducer<T> {
 	constructor(

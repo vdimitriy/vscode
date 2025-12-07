@@ -10,6 +10,8 @@ import { assertNever } from '../../../../base/common/assert.js';
 import { applyTestItemUpdate, ITestItem, ITestTag, namespaceTestTag, TestDiffOpType, TestItemExpandState, TestsDiff, TestsDiffOp } from './testTypes.js';
 import { TestId } from './testId.js';
 import { URI } from '../../../../base/common/uri.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../../jq.fix/queueMicrotask.fix.js';
 
 /**
  * @private
@@ -422,7 +424,7 @@ export class TestItemCollection<T extends ITestItemLike> extends Disposable {
 		if (expandLevels !== undefined) {
 			// Wait until a microtask to allow the extension to finish setting up
 			// properties of the element and children before we ask it to expand.
-			queueMicrotask(() => {
+			_queueMicrotask(() => {
 				if (internal.expand === TestItemExpandState.Expandable) {
 					internal.expandLevels = undefined;
 					this.expand(fullId.toString(), expandLevels);

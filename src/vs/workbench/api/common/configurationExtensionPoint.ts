@@ -19,6 +19,8 @@ import { Disposable } from '../../../base/common/lifecycle.js';
 import { SyncDescriptor } from '../../../platform/instantiation/common/descriptors.js';
 import { MarkdownString } from '../../../base/common/htmlContent.js';
 import product from '../../../platform/product/common/product.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _queueMicrotask } from '../../../jq.fix/queueMicrotask.fix.js';
 
 const jsonRegistry = Registry.as<IJSONContributionRegistry>(JSONExtensions.JSONContribution);
 const configurationRegistry = Registry.as<IConfigurationRegistry>(Extensions.Configuration);
@@ -168,7 +170,7 @@ defaultConfigurationExtPoint.setHandler((extensions, { added, removed }) => {
 
 	const configNow = _configDelta = {};
 	// schedule a HIGHLY unlikely task in case only the default configurations EXT point changes
-	queueMicrotask(() => {
+	_queueMicrotask(() => {
 		if (_configDelta === configNow) {
 			configurationRegistry.deltaConfiguration(_configDelta);
 			_configDelta = undefined;

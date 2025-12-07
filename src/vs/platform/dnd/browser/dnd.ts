@@ -24,6 +24,8 @@ import { IInstantiationService, ServicesAccessor } from '../../instantiation/com
 import { extractSelection } from '../../opener/common/opener.js';
 import { Registry } from '../../registry/common/platform.js';
 import { IMarker } from '../../markers/common/markers.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 
 //#region Editor / Resources DND
@@ -474,8 +476,8 @@ interface IElectronWebUtils {
  * in a safe way without crashing the application when running in the web.
  */
 export function getPathForFile(file: File): string | undefined {
-	if (isNative && typeof (globalThis as IElectronWebUtils).vscode?.webUtils?.getPathForFile === 'function') {
-		return (globalThis as IElectronWebUtils).vscode?.webUtils?.getPathForFile(file);
+	if (isNative && typeof (_globalThis as IElectronWebUtils).vscode?.webUtils?.getPathForFile === 'function') {
+		return (_globalThis as IElectronWebUtils).vscode?.webUtils?.getPathForFile(file);
 	}
 
 	return undefined;

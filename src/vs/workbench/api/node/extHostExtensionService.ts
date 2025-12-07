@@ -24,6 +24,8 @@ import { assertType } from '../../../base/common/types.js';
 import { generateUuid } from '../../../base/common/uuid.js';
 import { BidirectionalMap } from '../../../base/common/map.js';
 import { DisposableStore, toDisposable } from '../../../base/common/lifecycle.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 const require = nodeModule.createRequire(import.meta.url);
 
@@ -128,7 +130,7 @@ class NodeModuleESMInterceptor extends RequireInterceptor {
 		const apiImportDataUrl = new Map<string, string>();
 
 		// define a global function that can be used to get API instances given a random key
-		Object.defineProperty(globalThis, NodeModuleESMInterceptor._vscodeImportFnName, {
+		Object.defineProperty(_globalThis, NodeModuleESMInterceptor._vscodeImportFnName, {
 			enumerable: false,
 			configurable: false,
 			writable: false,
@@ -169,7 +171,8 @@ class NodeModuleESMInterceptor extends RequireInterceptor {
 			// Create and cache a data-url which is the import script for the API instance
 			let scriptDataUrlSrc = apiImportDataUrl.get(key);
 			if (!scriptDataUrlSrc) {
-				const jsCode = `const _vscodeInstance = globalThis.${NodeModuleESMInterceptor._vscodeImportFnName}('${key}');\n\n${Object.keys(apiInstance).map((name => `export const ${name} = _vscodeInstance['${name}'];`)).join('\n')}`;
+				//const jsCode = `const _vscodeInstance = globalThis.${NodeModuleESMInterceptor._vscodeImportFnName}('${key}');\n\n${Object.keys(apiInstance).map((name => `export const ${name} = _vscodeInstance['${name}'];`)).join('\n')}`;
+				const jsCode = `const _vscodeInstance = (typeof globalThis !== 'undefined' ? globalThis : self).${NodeModuleESMInterceptor._vscodeImportFnName}('${key}');\n\n${Object.keys(apiInstance).map((name => `export const ${name} = _vscodeInstance['${name}'];`)).join('\n')}`;
 				scriptDataUrlSrc = NodeModuleESMInterceptor._createDataUri(jsCode);
 				apiImportDataUrl.set(key, scriptDataUrlSrc);
 			}

@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../../jq.fix/globalThis.fix.js';
 import { NewWorkerMessage, TerminateWorkerMessage } from '../common/polyfillNestedWorker.protocol.js';
 
 declare function postMessage(data: any, transferables?: Transferable[]): void;
@@ -13,14 +15,14 @@ const _bootstrapFnSource = (function _bootstrapFn(workerUrl: string) {
 
 	const listener: EventListener = (event: Event): void => {
 		// uninstall handler
-		globalThis.removeEventListener('message', listener);
+		_globalThis.removeEventListener('message', listener);
 
 		// get data
 		const port = <MessagePort>(<MessageEvent>event).data;
 
 		// postMessage
 		// onmessage
-		Object.defineProperties(globalThis, {
+		Object.defineProperties(_globalThis, {
 			'postMessage': {
 				value(data: any, transferOrOptions?: any) {
 					port.postMessage(data, transferOrOptions);
@@ -38,20 +40,20 @@ const _bootstrapFnSource = (function _bootstrapFn(workerUrl: string) {
 		});
 
 		port.addEventListener('message', msg => {
-			globalThis.dispatchEvent(new MessageEvent('message', { data: msg.data, ports: msg.ports ? [...msg.ports] : undefined }));
+			_globalThis.dispatchEvent(new MessageEvent('message', { data: msg.data, ports: msg.ports ? [...msg.ports] : undefined }));
 		});
 
 		port.start();
 
 		// fake recursively nested worker
 		// eslint-disable-next-line local/code-no-any-casts
-		globalThis.Worker = <any>class { constructor() { throw new TypeError('Nested workers from within nested worker are NOT supported.'); } };
+		_globalThis.Worker = <any>class { constructor() { throw new TypeError('Nested workers from within nested worker are NOT supported.'); } };
 
 		// load module
 		importScripts(workerUrl);
 	};
 
-	globalThis.addEventListener('message', listener);
+	_globalThis.addEventListener('message', listener);
 }).toString();
 
 

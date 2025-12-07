@@ -18,6 +18,8 @@ import { createFileSystemProviderError, IFileDeleteOptions, IFileOverwriteOption
 import { FileSystemObserverRecord, WebFileSystemAccess, WebFileSystemObserver } from './webFileSystemAccess.js';
 import { IndexedDB } from '../../../base/browser/indexedDB.js';
 import { ILogService, LogLevel } from '../../log/common/log.js';
+// eslint-disable-next-line local/code-import-patterns
+import { _globalThis } from '../../../jq.fix/globalThis.fix.js';
 
 export class HTMLFileSystemProvider extends Disposable implements IFileSystemProviderWithFileReadWriteCapability, IFileSystemProviderWithFileReadStreamCapability {
 
@@ -299,7 +301,7 @@ export class HTMLFileSystemProvider extends Disposable implements IFileSystemPro
 	}
 
 	private async doWatch(resource: URI, opts: IWatchOptions, disposables: DisposableStore): Promise<void> {
-		if (!WebFileSystemObserver.supported(globalThis)) {
+		if (!WebFileSystemObserver.supported(_globalThis)) {
 			return;
 		}
 
@@ -309,7 +311,7 @@ export class HTMLFileSystemProvider extends Disposable implements IFileSystemPro
 		}
 
 		// eslint-disable-next-line local/code-no-any-casts, @typescript-eslint/no-explicit-any
-		const observer = new (globalThis as any).FileSystemObserver((records: FileSystemObserverRecord[]) => {
+		const observer = new (_globalThis as any).FileSystemObserver((records: FileSystemObserverRecord[]) => {
 			if (disposables.isDisposed) {
 				return;
 			}
