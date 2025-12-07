@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "build-monaco": "gulp editor-distro",
+    "copy-monaco": "rmdir /s/q ..\\monaco\\monaco-editor & xcopy out-monaco-editor-core\\esm\\vs ..\\monaco\\monaco-editor\\ /s/h/e/k/f/c",
     "test": "echo Please run any of the test scripts from the scripts folder.",
     "test-browser": "npx playwright install && node test/unit/browser/index.js",
     "test-browser-no-install": "node test/unit/browser/index.js",
