@@ -138,7 +138,9 @@ export function transformErrorForSerialization(error: Error): SerializedError;
 export function transformErrorForSerialization(error: any): any;
 export function transformErrorForSerialization(error: any): any {
 	if (error instanceof Error) {
-		const { name, message, cause } = error;
+		//const { name, message, cause } = error;
+		const { name, message } = error;
+		const cause = null;
 		// eslint-disable-next-line local/code-no-any-casts
 		const stack: string = (<any>error).stacktrace || (<any>error).stack;
 		return {
@@ -169,9 +171,9 @@ export function transformErrorFromSerialization(data: SerializedError): Error {
 	if (data.code) {
 		(<ErrorWithCode>error).code = data.code;
 	}
-	if (data.cause) {
+	/*if (data.cause) {
 		error.cause = transformErrorFromSerialization(data.cause);
-	}
+	}*/
 	return error;
 }
 

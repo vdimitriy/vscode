@@ -189,7 +189,7 @@ class WebWorker extends Disposable implements IWebWorker {
 				w.postMessage(message, transfer);
 			} catch (err) {
 				onUnexpectedError(err);
-				onUnexpectedError(new Error(`FAILED to post message to worker`, { cause: err }));
+				//onUnexpectedError(new Error(`FAILED to post message to worker`, { cause: err }));
 			}
 		});
 	}

@@ -3765,7 +3765,8 @@ export class LanguageModelError extends Error {
 	readonly code: string;
 
 	constructor(message?: string, code?: string, cause?: Error) {
-		super(message, { cause });
+		//super(message, { cause });
+		super(message);
 		this.name = LanguageModelError.#name;
 		this.code = code ?? '';
 	}
