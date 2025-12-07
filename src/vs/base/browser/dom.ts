@@ -125,6 +125,10 @@ export const {
 
 //#endregion
 
+export function isInDom(node: any): Boolean {
+	return node?.ownerDocument?.contains(node) || false;
+}
+
 export function clearNode(node: HTMLElement): void {
 	while (node.firstChild) {
 		node.firstChild.remove();

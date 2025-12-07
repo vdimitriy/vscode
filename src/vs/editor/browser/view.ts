@@ -568,7 +568,8 @@ export class View extends ViewEventHandler {
 				inputLatency.onRenderStart();
 			},
 			renderText: (): [ViewPart[], RenderingContext] | null => {
-				if (!this.domNode.domNode.isConnected) {
+				//if (!this.domNode.domNode.isConnected) {
+				if (!dom.isInDom(this.domNode.domNode)) {
 					return null;
 				}
 				let viewPartsToRender = this._getViewPartsToRender();
