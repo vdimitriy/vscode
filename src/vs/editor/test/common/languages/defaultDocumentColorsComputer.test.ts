@@ -24,6 +24,7 @@ suite('Default Document Colors Computer', () => {
 		}
 
 		findMatches(regex: RegExp): RegExpMatchArray[] {
+			// @ts-ignore
 			return [...this.content.matchAll(regex)];
 		}
 	}

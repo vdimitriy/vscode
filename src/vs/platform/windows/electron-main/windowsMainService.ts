@@ -524,6 +524,7 @@ export class WindowsMainService extends Disposable implements IWindowsMainServic
 
 		// Handle folders to add/remove by looking for the last active workspace (not on initial startup)
 		if (!openConfig.initialStartup && (foldersToAdd.length > 0 || foldersToRemove.length > 0)) {
+			// @ts-ignore
 			const authority = foldersToAdd.at(0)?.remoteAuthority ?? foldersToRemove.at(0)?.remoteAuthority;
 			const lastActiveWindow = this.getLastActiveWindowForAuthority(authority);
 			if (lastActiveWindow) {

@@ -191,27 +191,38 @@ export class Gesture extends Disposable {
 				holdTime = Date.now() - data.initialTimeStamp;
 
 			if (holdTime < Gesture.HOLD_DELAY
+				// @ts-ignore
 				&& Math.abs(data.initialPageX - data.rollingPageX.at(-1)!) < 30
+				// @ts-ignore
 				&& Math.abs(data.initialPageY - data.rollingPageY.at(-1)!) < 30) {
 
 				const evt = this.newGestureEvent(EventType.Tap, data.initialTarget);
+				// @ts-ignore
 				evt.pageX = data.rollingPageX.at(-1)!;
+				// @ts-ignore
 				evt.pageY = data.rollingPageY.at(-1)!;
 				this.dispatchEvent(evt);
 
 			} else if (holdTime >= Gesture.HOLD_DELAY
+				// @ts-ignore
 				&& Math.abs(data.initialPageX - data.rollingPageX.at(-1)!) < 30
+				// @ts-ignore
 				&& Math.abs(data.initialPageY - data.rollingPageY.at(-1)!) < 30) {
 
 				const evt = this.newGestureEvent(EventType.Contextmenu, data.initialTarget);
+				// @ts-ignore
 				evt.pageX = data.rollingPageX.at(-1)!;
+				// @ts-ignore
 				evt.pageY = data.rollingPageY.at(-1)!;
 				this.dispatchEvent(evt);
 
 			} else if (activeTouchCount === 1) {
+				// @ts-ignore
 				const finalX = data.rollingPageX.at(-1)!;
+				// @ts-ignore
 				const finalY = data.rollingPageY.at(-1)!;
 
+				// @ts-ignore
 				const deltaT = data.rollingTimestamps.at(-1)! - data.rollingTimestamps[0];
 				const deltaX = finalX - data.rollingPageX[0];
 				const deltaY = finalY - data.rollingPageY[0];
@@ -344,7 +355,9 @@ export class Gesture extends Disposable {
 			const data = this.activeTouches[touch.identifier];
 
 			const evt = this.newGestureEvent(EventType.Change, data.initialTarget);
+			// @ts-ignore
 			evt.translationX = touch.pageX - data.rollingPageX.at(-1)!;
+			// @ts-ignore
 			evt.translationY = touch.pageY - data.rollingPageY.at(-1)!;
 			evt.pageX = touch.pageX;
 			evt.pageY = touch.pageY;

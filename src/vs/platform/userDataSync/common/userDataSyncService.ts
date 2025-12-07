@@ -322,6 +322,7 @@ export class UserDataSyncService extends Disposable implements IUserDataSyncServ
 
 	private async stop(): Promise<void> {
 		if (this.status !== SyncStatus.Idle) {
+			// @ts-ignore
 			await Promise.allSettled(this.getActiveProfileSynchronizers().map(profileSynchronizer => profileSynchronizer.stop()));
 		}
 	}
@@ -482,6 +483,7 @@ export class UserDataSyncService extends Disposable implements IUserDataSyncServ
 		const redundantCollections = allCollections.filter(c => !remoteProfileCollections.includes(c));
 		if (redundantCollections.length) {
 			this.logService.info(`Deleting ${redundantCollections.length} redundant collections on server`);
+			// @ts-ignore
 			await Promise.allSettled(redundantCollections.map(collectionId => this.userDataSyncStoreService.deleteCollection(collectionId)));
 			this.logService.info(`Deleted redundant collections on server`);
 		}

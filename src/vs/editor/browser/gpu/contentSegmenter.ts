@@ -16,6 +16,7 @@ export interface IContentSegmenter {
 	 * @param index The index within the line data's content string.
 	 */
 	getSegmentAtIndex(index: number): string | undefined;
+	// @ts-ignore
 	getSegmentData(index: number): Intl.SegmentData | undefined;
 }
 
@@ -37,6 +38,7 @@ class AsciiContentSegmenter implements IContentSegmenter {
 		return this._content[index];
 	}
 
+	// @ts-ignore
 	getSegmentData(index: number): Intl.SegmentData | undefined {
 		return undefined;
 	}
@@ -47,6 +49,7 @@ class AsciiContentSegmenter implements IContentSegmenter {
  * manual table approach.
  */
 class GraphemeContentSegmenter implements IContentSegmenter {
+	// @ts-ignore
 	private readonly _segments: (Intl.SegmentData | undefined)[] = [];
 
 	constructor(lineData: ViewLineRenderingData) {
@@ -64,6 +67,7 @@ class GraphemeContentSegmenter implements IContentSegmenter {
 			}
 
 			// The segment isn't renderable (eg. the tail end of an emoji)
+			// @ts-ignore
 			if (segment.index !== x) {
 				this._segments.push(undefined);
 				continue;
@@ -78,6 +82,7 @@ class GraphemeContentSegmenter implements IContentSegmenter {
 		return this._segments[index]?.segment;
 	}
 
+	// @ts-ignore
 	getSegmentData(index: number): Intl.SegmentData | undefined {
 		return this._segments[index];
 	}

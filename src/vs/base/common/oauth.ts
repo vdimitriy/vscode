@@ -1190,6 +1190,7 @@ export async function fetchResourceMetadata(
 	if (errors.length === 1) {
 		throw errors[0];
 	} else {
+		// @ts-ignore
 		throw new AggregateError(errors, 'Failed to fetch resource metadata from all attempted URLs');
 	}
 }

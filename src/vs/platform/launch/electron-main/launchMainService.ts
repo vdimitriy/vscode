@@ -70,6 +70,7 @@ export class LaunchMainService implements ILaunchMainService {
 
 			// Create a window if there is none
 			if (this.windowsMainService.getWindowCount() === 0) {
+				// @ts-ignore
 				const window = (await this.windowsMainService.openEmptyWindow({ context: OpenContext.DESKTOP })).at(0);
 				if (window) {
 					whenWindowReady = window.ready();

@@ -114,6 +114,7 @@ suite('Objects', () => {
 				obj1, obj2
 			],
 			d: null,
+			// @ts-ignore
 			e: BigInt(42)
 		};
 

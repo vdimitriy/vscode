@@ -21,6 +21,7 @@ class StandaloneLayoutService implements ILayoutService {
 	readonly onDidAddContainer = Event.None;
 
 	get mainContainer(): HTMLElement {
+		// @ts-ignore
 		return this._codeEditorService.listCodeEditors().at(0)?.getContainerDomNode() ?? mainWindow.document.body;
 	}
 

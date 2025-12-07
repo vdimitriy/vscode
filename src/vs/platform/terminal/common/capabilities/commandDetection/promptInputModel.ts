@@ -430,6 +430,7 @@ export class PromptInputModel extends Disposable implements IPromptInputModel {
 			}
 
 			if (isMultiLine) {
+				// @ts-ignore
 				valueLines[valueLines.length - 1] = valueLines.at(-1)?.trimEnd() ?? '';
 				const continuationOffset = (valueLines.length - 1) * (this._continuationPrompt?.length ?? 0);
 				trailingWhitespace = Math.max(0, cursorIndex - value.length - continuationOffset);

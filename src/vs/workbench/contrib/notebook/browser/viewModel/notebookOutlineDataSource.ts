@@ -67,6 +67,7 @@ export class NotebookCellOutlineDataSource implements INotebookCellOutlineDataSo
 					// gather all symbols asynchronously
 					promises.push(this._outlineEntryFactory.cacheSymbols(cell, cancelToken));
 				}
+				// @ts-ignore
 				await Promise.allSettled(promises);
 			}
 			this.recomputeState();

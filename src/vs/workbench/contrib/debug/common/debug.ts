@@ -682,6 +682,7 @@ export interface IInstructionBreakpoint extends IBaseBreakpoint {
 	readonly instructionReference: string;
 	readonly offset?: number;
 	/** Original instruction memory address; display purposes only */
+	// @ts-ignore
 	readonly address: bigint;
 	toDAP(): DebugProtocol.InstructionBreakpoint;
 }

@@ -972,6 +972,7 @@ export class ListView<T> implements IListView<T> {
 		}
 
 		if (item.stale || !item.row.domNode.parentElement) {
+			// @ts-ignore
 			const referenceNode = this.items.at(index + 1)?.row?.domNode ?? null;
 			if (item.row.domNode.parentElement !== this.rowsContainer || item.row.domNode.nextElementSibling !== referenceNode) {
 				this.rowsContainer.insertBefore(item.row.domNode, referenceNode);

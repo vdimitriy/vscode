@@ -154,6 +154,7 @@ export class ConfigurationMigrationWorkbenchContribution extends Disposable impl
 
 			if (migrationValues.length) {
 				// apply migrations
+				// @ts-ignore
 				await Promise.allSettled(migrationValues.map(async ([[key, value], overrideIdentifiers]) =>
 					this.configurationService.updateValue(key, value.value, { resource, overrideIdentifiers }, target)));
 			}

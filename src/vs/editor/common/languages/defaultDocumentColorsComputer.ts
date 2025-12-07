@@ -92,6 +92,7 @@ function _findHSLColorInformation(range: IRange | undefined, matches: RegExpMatc
 
 function _findMatches(model: IDocumentColorComputerTarget | string, regex: RegExp): RegExpMatchArray[] {
 	if (typeof model === 'string') {
+		// @ts-ignore
 		return [...model.matchAll(regex)];
 	} else {
 		return model.findMatches(regex);

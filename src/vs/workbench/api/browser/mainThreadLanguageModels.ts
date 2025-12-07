@@ -169,6 +169,7 @@ export class MainThreadLanguageModels implements MainThreadLanguageModelsShape {
 		})();
 
 		// When the response is done (signaled via its result) we tell the EH
+		// @ts-ignore
 		Promise.allSettled([response.result, streaming]).then(() => {
 			this._logService.debug('[CHAT] extension request DONE', extension.value, requestId);
 			this._proxy.$acceptResponseDone(requestId, undefined);

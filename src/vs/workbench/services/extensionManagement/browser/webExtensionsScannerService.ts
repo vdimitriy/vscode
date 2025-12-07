@@ -233,6 +233,7 @@ export class WebExtensionsScannerService extends Disposable implements IWebExten
 			return [];
 		}
 		const result: IScannedExtension[] = [];
+		// @ts-ignore
 		await Promise.allSettled(extensionLocations.map(async extensionLocation => {
 			try {
 				const webExtension = await this.toWebExtension(extensionLocation);
@@ -314,6 +315,7 @@ export class WebExtensionsScannerService extends Disposable implements IWebExten
 				}
 				const fromExtensions = await this.galleryService.getExtensions(extensionsToMigrate.map(([id]) => ({ id })), CancellationToken.None);
 				try {
+					// @ts-ignore
 					await Promise.allSettled(extensionsToMigrate.map(async ([from, to]) => {
 						const toExtension = customBuiltinExtensions.find(extension => areSameExtensions(extension.identifier, { id: to }));
 						if (toExtension) {
@@ -491,6 +493,7 @@ export class WebExtensionsScannerService extends Disposable implements IWebExten
 		const devExtensions = this.environmentService.options?.developmentOptions?.extensions;
 		const result: IExtension[] = [];
 		if (Array.isArray(devExtensions)) {
+			// @ts-ignore
 			await Promise.allSettled(devExtensions.map(async devExtension => {
 				try {
 					const location = URI.revive(devExtension);

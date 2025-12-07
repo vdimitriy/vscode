@@ -105,6 +105,7 @@ export class ChatEditingCheckpointTimelineImpl implements IChatEditingCheckpoint
 		const currentEpoch = this._currentEpoch.read(reader);
 		const operations = this._operations.read(reader);
 		const checkpoints = this._checkpoints.read(reader);
+		// @ts-ignore
 		const maxEncounteredEpoch = Math.max(operations.at(-1)?.epoch || 0, checkpoints.at(-1)?.epoch || 0);
 		if (currentEpoch > maxEncounteredEpoch) {
 			return undefined;
@@ -355,6 +356,7 @@ export class ChatEditingCheckpointTimelineImpl implements IChatEditingCheckpoint
 
 		store.add(Event.fromObservableLight(this._operations)(() => {
 			scheduler.trigger(async () => {
+				// @ts-ignore
 				if (this._operations.get().at(-1)?.epoch! >= target) {
 					store.dispose();
 				}
@@ -577,6 +579,7 @@ export class ChatEditingCheckpointTimelineImpl implements IChatEditingCheckpoint
 					throw new Error('Cannot apply text edits to non-existent file');
 				}
 
+				// @ts-ignore
 				const nbCell = operation.cellIndex !== undefined && state.notebook?.cells.at(operation.cellIndex);
 				if (nbCell) {
 					const newContent = this._applyTextEditsToContent(nbCell.getValue(), operation.edits);

@@ -1586,6 +1586,7 @@ export class TerminalInstance extends Disposable implements ITerminalInstance {
 		// a listener for when individual data events are parsed, only `onWriteParsed` which fires
 		// when the write buffer is flushed.
 		const leadingSegmentedData: string[] = [];
+		// @ts-ignore
 		const matches = ev.data.matchAll(/(?<seq>\x1b\][16]33;(?:C|D(?:;\d+)?)\x07)/g);
 		let i = 0;
 		for (const match of matches) {

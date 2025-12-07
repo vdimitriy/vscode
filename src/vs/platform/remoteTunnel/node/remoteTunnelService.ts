@@ -303,6 +303,7 @@ export class RemoteTunnelService extends Disposable implements IRemoteTunnelServ
 			const token = session.token;
 			this.setTunnelStatus(TunnelStates.connecting(localize({ key: 'remoteTunnelService.authorizing', comment: ['{0} is a user account name, {1} a provider name (e.g. Github)'] }, 'Connecting as {0} ({1})', session.accountLabel, session.providerId)));
 			const onLoginOutput = (a: string, isErr: boolean) => {
+				// @ts-ignore
 				a = a.replaceAll(token, '*'.repeat(4));
 				onOutput(a, isErr);
 			};

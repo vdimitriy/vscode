@@ -95,6 +95,7 @@ export class ChatViewWelcomeController extends Disposable {
 		dom.clearNode(this.element!);
 
 		const matchingDescriptors = descriptors.filter(descriptor => this.contextKeyService.contextMatchesRules(descriptor.when));
+		// @ts-ignore
 		const enabledDescriptor = matchingDescriptors.at(0);
 		if (enabledDescriptor) {
 			const content: IChatViewWelcomeContent = {

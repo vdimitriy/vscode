@@ -502,6 +502,7 @@ export class CopyPasteController extends Disposable implements IEditorContributi
 
 				let pickedEdit: DocumentPasteEdit | undefined;
 				if (preference) {
+					// @ts-ignore
 					pickedEdit = editSession.edits.at(0);
 				} else {
 					type ItemWithEdit = IQuickPickItem & { edit?: DocumentPasteEdit };

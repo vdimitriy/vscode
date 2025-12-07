@@ -214,6 +214,7 @@ export class DiffEditorEditors extends Disposable {
 		if (this._options.accessibilityVerbose.get()) {
 			return ariaLabel + ariaNavigationTip;
 		} else if (ariaLabel) {
+			// @ts-ignore
 			return ariaLabel.replaceAll(ariaNavigationTip, '');
 		}
 		return '';

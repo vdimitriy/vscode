@@ -20,9 +20,11 @@ const ttPolicy = createTrustedTypesPolicy('domLineBreaksComputer', { createHTML:
 export class DOMLineBreaksComputerFactory implements ILineBreaksComputerFactory {
 
 	public static create(targetWindow: Window): DOMLineBreaksComputerFactory {
+		// @ts-ignore
 		return new DOMLineBreaksComputerFactory(new WeakRef(targetWindow));
 	}
 
+	// @ts-ignore
 	constructor(private targetWindow: WeakRef<Window>) {
 	}
 

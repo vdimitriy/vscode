@@ -79,6 +79,7 @@ export class AiRelatedInformationService implements IAiRelatedInformationService
 
 		try {
 			const results = await raceTimeout(
+				// @ts-ignore
 				Promise.allSettled(cancellablePromises),
 				AiRelatedInformationService.DEFAULT_TIMEOUT,
 				() => {

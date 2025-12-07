@@ -1155,6 +1155,7 @@ export class FindWidget extends Widget implements IOverlayWidget, IVerticalSashL
 			icon: findReplaceAllIcon,
 			hoverLifecycleOptions,
 			onTrigger: () => {
+				// @ts-ignore
 				this._controller.replaceAll();
 			}
 		}, this._hoverService));

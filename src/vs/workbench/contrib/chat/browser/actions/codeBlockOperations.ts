@@ -78,6 +78,7 @@ export class InsertCodeBlockOperation {
 				modelId: request?.modelId ?? '',
 			});
 
+			// @ts-ignore
 			const codeBlockInfo = context.element.model.codeBlockInfos?.at(context.codeBlockIndex);
 
 			this.aiEditTelemetryService.handleCodeAccepted({
@@ -177,6 +178,7 @@ export class ApplyCodeBlockOperation {
 		let codeBlockSuggestionId: EditSuggestionId | undefined = undefined;
 
 		if (isResponseVM(context.element)) {
+			// @ts-ignore
 			const codeBlockInfo = context.element.model.codeBlockInfos?.at(context.codeBlockIndex);
 			if (codeBlockInfo) {
 				codeBlockSuggestionId = codeBlockInfo.suggestionId;

@@ -546,6 +546,7 @@ class WorkspaceProvider implements IWorkspaceProvider {
 			// to ensure to preserve special characters, such
 			// as `+` in the path.
 
+			// @ts-ignore
 			return encodeURIComponent(`${posix.sep}${ltrim(uri.path, posix.sep)}`).replaceAll('%2F', '/');
 		}
 

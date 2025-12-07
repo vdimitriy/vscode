@@ -69,6 +69,7 @@ export class WordOperations {
 
 	private static _createIntlWord(intlWord: IntlWordSegmentData, nextCharClass: WordCharacterClass): IFindWordResult {
 		// console.log('INTL WORD ==> ' + intlWord.index + ' => ' + intlWord.index + intlWord.segment.length + ':::: <<<' + intlWord.segment + '>>>');
+		// @ts-ignore
 		return { start: intlWord.index, end: intlWord.index + intlWord.segment.length, wordType: WordType.Regular, nextCharClass: nextCharClass };
 	}
 
@@ -86,6 +87,7 @@ export class WordOperations {
 			const chCode = lineContent.charCodeAt(chIndex);
 			const chClass = wordSeparators.get(chCode);
 
+			// @ts-ignore
 			if (previousIntlWord && chIndex === previousIntlWord.index) {
 				return this._createIntlWord(previousIntlWord, chClass);
 			}
@@ -123,6 +125,7 @@ export class WordOperations {
 			const chCode = lineContent.charCodeAt(chIndex);
 			const chClass = wordSeparators.get(chCode);
 
+			// @ts-ignore
 			if (nextIntlWord && chIndex === nextIntlWord.index + nextIntlWord.segment.length) {
 				return chIndex;
 			}
@@ -155,6 +158,7 @@ export class WordOperations {
 			const chCode = lineContent.charCodeAt(chIndex);
 			const chClass = wordSeparators.get(chCode);
 
+			// @ts-ignore
 			if (nextIntlWord && chIndex === nextIntlWord.index) {
 				return this._createIntlWord(nextIntlWord, chClass);
 			}
@@ -191,6 +195,7 @@ export class WordOperations {
 			const chCode = lineContent.charCodeAt(chIndex);
 			const chClass = wordSeparators.get(chCode);
 
+			// @ts-ignore
 			if (previousIntlWord && chIndex === previousIntlWord.index) {
 				return chIndex;
 			}

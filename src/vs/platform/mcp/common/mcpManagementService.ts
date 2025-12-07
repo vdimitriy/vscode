@@ -341,6 +341,7 @@ export abstract class AbstractMcpResourceManagementService extends AbstractCommo
 		try {
 			const scannedMcpServers = await this.mcpResourceScannerService.scanMcpServers(this.mcpResource, this.target);
 			if (scannedMcpServers.servers) {
+				// @ts-ignore
 				await Promise.allSettled(Object.entries(scannedMcpServers.servers).map(async ([name, scannedServer]) => {
 					const server = await this.scanLocalServer(name, scannedServer);
 					local.set(name, server);

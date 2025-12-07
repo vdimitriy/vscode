@@ -370,6 +370,7 @@ export function cleanData(data: Record<string, any>, cleanUpPatterns: RegExp[]):
 
 		// We only know how to clean strings
 		if (typeof value === 'string') {
+			// @ts-ignore
 			let updatedProperty = value.replaceAll('%20', ' ');
 
 			// First we anonymize any possible file paths

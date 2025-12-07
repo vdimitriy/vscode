@@ -386,6 +386,7 @@ export function handleANSIOutput(text: string, linkDetector: ILinkDetector, work
 
 		if (colorIndex !== undefined && colorType) {
 			const colorName = ansiColorIdentifiers[colorIndex];
+			// @ts-ignore
 			changeColor(colorType, `--vscode-debug-ansi-${colorName.replaceAll('.', '-')}`);
 		}
 	}
@@ -502,6 +503,7 @@ registerThemingParticipant((theme, collector) => {
 				// this uses the default contrast ratio of 4 (from the terminal),
 				// we may want to make this configurable in the future, but this is
 				// good to keep things sane to start with.
+				// @ts-ignore
 				return `--vscode-debug-ansi-${color.replaceAll('.', '-')}:${bg ? bg.ensureConstrast(actual, 4) : actual}`;
 			})
 			.filter(isDefined);

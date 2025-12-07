@@ -711,6 +711,7 @@ export class SearchView extends ViewPane {
 			this.toggleQueryDetailsButton.focus();
 		}));
 
+		// @ts-ignore
 		this._register(this.searchWidget.onReplaceAll(() => this.replaceAll()));
 
 		this.trackInputBox(this.searchWidget.searchInputFocusTracker);

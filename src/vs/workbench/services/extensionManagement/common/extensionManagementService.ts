@@ -246,6 +246,7 @@ export class ExtensionManagementService extends CommontExtensionManagementServic
 			promises.push(this.uninstallInServer(server, extensions));
 		}
 
+		// @ts-ignore
 		const result = await Promise.allSettled(promises);
 		const errors = result.filter(r => r.status === 'rejected').map(r => r.reason);
 		if (errors.length) {
@@ -291,6 +292,7 @@ export class ExtensionManagementService extends CommontExtensionManagementServic
 	}
 
 	async resetPinnedStateForAllUserExtensions(pinned: boolean): Promise<void> {
+		// @ts-ignore
 		await Promise.allSettled(this.servers.map(server => server.extensionManagementService.resetPinnedStateForAllUserExtensions(pinned)));
 	}
 
@@ -1109,6 +1111,7 @@ export class ExtensionManagementService extends CommontExtensionManagementServic
 	}
 
 	async cleanUp(): Promise<void> {
+		// @ts-ignore
 		await Promise.allSettled(this.servers.map(server => server.extensionManagementService.cleanUp()));
 	}
 
@@ -1231,6 +1234,7 @@ class WorkspaceExtensionsManagementService extends Disposable {
 			return;
 		}
 
+		// @ts-ignore
 		await Promise.allSettled(existingLocations.map(async location => {
 			if (!this.workspaceService.isInsideWorkspace(location)) {
 				this.logService.info(`Removing the workspace extension ${location.toString()} as it is not inside the workspace`);

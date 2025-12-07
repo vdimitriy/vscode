@@ -529,6 +529,7 @@ class SharedProcessMain extends Disposable implements IClientConnectionFilter {
 			return false;
 		}
 
+		// @ts-ignore
 		const port = e.ports.at(0);
 		if (port) {
 			this.onDidWindowConnectRaw.fire(port);

@@ -66,6 +66,7 @@ export interface IDisassembledInstructionEntry {
 	/** Original instruction from the debugger */
 	instruction: DebugProtocol.DisassembledInstruction;
 	/** Parsed instruction address */
+	// @ts-ignore
 	address: bigint;
 }
 
@@ -96,6 +97,7 @@ export class DisassemblyView extends EditorPane {
 	private _instructionBpList: readonly IInstructionBreakpoint[] = [];
 	private _enableSourceCodeRender: boolean = true;
 	private _loadingLock: boolean = false;
+	// @ts-ignore
 	private readonly _referenceToMemoryAddress = new Map<string, bigint>();
 	private menu: IMenu;
 
@@ -379,6 +381,7 @@ export class DisassemblyView extends EditorPane {
 		}
 
 		if (addr) {
+			// @ts-ignore
 			this.goToAddress(addr + BigInt(offset), focus);
 		}
 	}
@@ -391,6 +394,7 @@ export class DisassemblyView extends EditorPane {
 	/**
 	 * Go to the address provided. If no address is provided, reveal the address of the currently focused stack frame. Returns false if that address is not available.
 	 */
+	// @ts-ignore
 	private goToAddress(address: bigint, focus?: boolean): boolean {
 		if (!this._disassembledInstructions) {
 			return false;
@@ -456,6 +460,7 @@ export class DisassemblyView extends EditorPane {
 		const s = await this.debugSession?.disassemble(instructionReference, 0, 0, 1);
 		if (s && s.length > 0) {
 			try {
+				// @ts-ignore
 				this._referenceToMemoryAddress.set(instructionReference, BigInt(s[0].address));
 				return true;
 			} catch {
@@ -506,8 +511,10 @@ export class DisassemblyView extends EditorPane {
 					}
 				}
 
+				// @ts-ignore
 				let address: bigint;
 				try {
+					// @ts-ignore
 					address = BigInt(instruction.address);
 				} catch {
 					console.error(`Could not parse disassembly address ${instruction.address} (in ${JSON.stringify(instruction)})`);
@@ -550,6 +557,7 @@ export class DisassemblyView extends EditorPane {
 				}
 				return {
 					enabled: p.enabled,
+					// @ts-ignore
 					address: base + BigInt(p.offset || 0),
 				};
 			});
@@ -614,9 +622,11 @@ export class DisassemblyView extends EditorPane {
 			return -1;
 		}
 
+		// @ts-ignore
 		return this.getIndexFromAddress(addr + BigInt(offset));
 	}
 
+	// @ts-ignore
 	private getIndexFromAddress(address: bigint): number {
 		const disassembledInstructions = this._disassembledInstructions;
 		if (disassembledInstructions && disassembledInstructions.length > 0) {

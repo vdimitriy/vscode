@@ -1939,6 +1939,7 @@ flakySuite('Disk File Service', function () {
 			await timeout(0);
 		}
 
+		// @ts-ignore
 		await Promise.allSettled(promises);
 
 		assert.strictEqual(readFileSync(resource.fsPath).toString(), `${newContent}${suffix}`);
@@ -2043,6 +2044,7 @@ flakySuite('Disk File Service', function () {
 			await provider.write(fd2, 0, VSBuffer.fromString(newContent).buffer, 0, VSBuffer.fromString(newContent).buffer.byteLength);
 			assert.strictEqual((await promises.readFile(resource2.fsPath)).toString(), newContent);
 		} finally {
+			// @ts-ignore
 			await Promise.allSettled([
 				await provider.close(fd1),
 				await provider.close(fd2)

@@ -256,6 +256,7 @@ class EmptyTextEditorHintContentWidget extends Disposable implements IContentWid
 				'Preserve double-square brackets and their order',
 				'language refers to a programming language'
 			]
+			// @ts-ignore
 		}, '[[Select a language]] ({0}) to get started. Start typing to dismiss or [[don\'t show]] this again.', keybindingLabels.at(1) ?? '')).replaceAll(' ()', '');
 		const hintElement = renderFormattedText(hintMsg, {
 			actionHandler: hintHandler,

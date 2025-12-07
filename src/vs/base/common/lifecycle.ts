@@ -47,6 +47,7 @@ export interface IDisposableTracker {
 
 export class GCBasedDisposableTracker implements IDisposableTracker {
 
+	// @ts-ignore
 	private readonly _registry = new FinalizationRegistry<string>(heldValue => {
 		console.warn(`[LEAKED DISPOSABLE] ${heldValue}`);
 	});
@@ -345,6 +346,7 @@ export function dispose<T extends IDisposable>(arg: T | Iterable<T> | undefined)
 		if (errors.length === 1) {
 			throw errors[0];
 		} else if (errors.length > 1) {
+			// @ts-ignore
 			throw new AggregateError(errors, 'Encountered errors while disposing of store');
 		}
 

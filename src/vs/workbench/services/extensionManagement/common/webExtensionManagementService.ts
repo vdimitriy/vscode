@@ -166,6 +166,7 @@ export class WebExtensionManagementService extends AbstractExtensionManagementSe
 		const extensionsToInstall = (await this.webExtensionsScannerService.scanUserExtensions(fromProfileLocation))
 			.filter(e => extensions.some(id => areSameExtensions(id, e.identifier)));
 		if (extensionsToInstall.length) {
+			// @ts-ignore
 			await Promise.allSettled(extensionsToInstall.map(async e => {
 				let local = await this.installFromLocation(e.location, toProfileLocation);
 				if (e.metadata) {

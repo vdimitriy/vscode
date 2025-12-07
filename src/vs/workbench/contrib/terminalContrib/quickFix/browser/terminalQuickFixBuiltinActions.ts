@@ -193,6 +193,7 @@ export function gitPushSetUpstream(): ITerminalQuickFixInternalOptions {
 				if (!commandToRun.includes(varToResolve)) {
 					return [];
 				}
+				// @ts-ignore
 				fixedCommand = fixedCommand.replaceAll(varToResolve, () => value);
 			}
 			if (fixedCommand) {

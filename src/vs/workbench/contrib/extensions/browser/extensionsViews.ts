@@ -417,6 +417,7 @@ export class ExtensionsListView extends AbstractExtensionsListView<IExtension> {
 
 	private filterBuiltinExtensions(local: IExtension[], query: Query, options: IQueryOptions): IExtension[] {
 		let { value, includedCategories, excludedCategories } = this.parseCategories(query.value);
+		// @ts-ignore
 		value = value.replaceAll(/@builtin/gi, '').replaceAll(/@sort:(\w+)(-\w*)?/g, '').trim().toLowerCase();
 
 		const result = local
@@ -552,6 +553,7 @@ export class ExtensionsListView extends AbstractExtensionsListView<IExtension> {
 	private filterDisabledExtensions(local: IExtension[], runningExtensions: readonly IExtensionDescription[], query: Query, options: IQueryOptions, includeBuiltin: boolean): IExtension[] {
 		let { value, includedCategories, excludedCategories } = this.parseCategories(query.value);
 
+		// @ts-ignore
 		value = value.replaceAll(/@disabled|@builtin/gi, '').replaceAll(/@sort:(\w+)(-\w*)?/g, '').trim().toLowerCase();
 
 		if (includeBuiltin) {
@@ -569,6 +571,7 @@ export class ExtensionsListView extends AbstractExtensionsListView<IExtension> {
 	private filterEnabledExtensions(local: IExtension[], runningExtensions: readonly IExtensionDescription[], query: Query, options: IQueryOptions, includeBuiltin: boolean): IExtension[] {
 		let { value, includedCategories, excludedCategories } = this.parseCategories(query.value);
 
+		// @ts-ignore
 		value = value ? value.replaceAll(/@enabled|@builtin/gi, '').replaceAll(/@sort:(\w+)(-\w*)?/g, '').trim().toLowerCase() : '';
 
 		local = local.filter(e => e.isBuiltin === includeBuiltin);

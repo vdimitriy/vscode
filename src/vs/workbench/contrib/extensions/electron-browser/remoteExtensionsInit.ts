@@ -74,6 +74,7 @@ export class InstallRemoteExtensionsContribution implements IWorkbenchContributi
 			return;
 		}
 
+		// @ts-ignore
 		await Promise.allSettled(extensionsToInstall.map(ext => {
 			this.extensionsWorkbenchService.installInServer(ext, this.extensionManagementServerService.remoteExtensionManagementServer!, { donotIncludePackAndDependencies: true });
 		}));
@@ -113,6 +114,7 @@ export class InstallRemoteExtensionsContribution implements IWorkbenchContributi
 		}
 
 		if (installExtensionInfo.length) {
+			// @ts-ignore
 			await Promise.allSettled(installExtensionInfo.map(e => this.extensionManagementServerService.remoteExtensionManagementServer!.extensionManagementService.installFromGallery(e.extension, e.options)));
 		}
 	}
@@ -224,6 +226,7 @@ class RemoteExtensionsInitializer extends AbstractExtensionsInitializer {
 		const targetPlatform = await this.extensionManagementService.getTargetPlatform();
 		const extensionsToInstall = await this.extensionGalleryService.getExtensions(newExtensions, { targetPlatform, compatible: true }, CancellationToken.None);
 		if (extensionsToInstall.length) {
+			// @ts-ignore
 			await Promise.allSettled(extensionsToInstall.map(async e => {
 				const manifest = await this.extensionGalleryService.getManifest(e, CancellationToken.None);
 				if (manifest && this.extensionManifestPropertiesService.canExecuteOnWorkspace(manifest)) {

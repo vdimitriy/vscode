@@ -652,6 +652,7 @@ export class ViewLinesGpu extends ViewPart implements IViewLines {
 
 		const lineData = this._lastViewportData.getViewLineRenderingData(lineNumber);
 		const lineRange = this._visibleRangesForLineRange(lineNumber, 1, lineData.maxColumn);
+		// @ts-ignore
 		const lastRange = lineRange?.ranges.at(-1);
 		if (lastRange) {
 			return lastRange.width;

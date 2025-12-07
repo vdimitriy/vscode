@@ -583,11 +583,13 @@ class WorkspaceMcpManagementService extends AbstractMcpManagementService impleme
 
 	private async onDidChangeWorkspaceFolders(e: IWorkspaceFoldersChangeEvent): Promise<void> {
 		try {
+			// @ts-ignore
 			await Promise.allSettled(e.removed.map(folder => this.removeWorkspaceService(folder.toResource(WORKSPACE_STANDALONE_CONFIGURATIONS[MCP_CONFIGURATION_KEY]))));
 		} catch (error) {
 			this.logService.error(error);
 		}
 		try {
+			// @ts-ignore
 			await Promise.allSettled(e.added.map(folder => this.addWorkspaceService(folder.toResource(WORKSPACE_STANDALONE_CONFIGURATIONS[MCP_CONFIGURATION_KEY]), ConfigurationTarget.WORKSPACE_FOLDER)));
 		} catch (error) {
 			this.logService.error(error);

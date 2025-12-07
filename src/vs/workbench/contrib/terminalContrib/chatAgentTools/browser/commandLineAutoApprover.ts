@@ -268,6 +268,7 @@ export class CommandLineAutoApprover extends Disposable {
 			// Remove global flag as it changes how the regex state works which we need to handle
 			// internally
 			if (flags) {
+				// @ts-ignore
 				flags = flags.replaceAll('g', '');
 			}
 

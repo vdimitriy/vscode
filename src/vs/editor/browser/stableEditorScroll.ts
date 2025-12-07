@@ -77,7 +77,9 @@ export class StableEditorBottomScrollState {
 		let visiblePositionScrollDelta = 0;
 		const visibleRanges = editor.getVisibleRanges();
 		if (visibleRanges.length > 0) {
+			// @ts-ignore
 			visiblePosition = visibleRanges.at(-1)!.getEndPosition();
+			// @ts-ignore
 			const visiblePositionScrollBottom = editor.getBottomForLineNumber(visiblePosition.lineNumber);
 			visiblePositionScrollDelta = visiblePositionScrollBottom - editor.getScrollTop();
 		}

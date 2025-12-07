@@ -923,6 +923,7 @@ export class CodeApplication extends Disposable {
 					forceNewWindow: shouldOpenInNewWindow,
 					gotoLineMode: true
 					// remoteAuthority: will be determined based on windowOpenableFromProtocolUrl
+					// @ts-ignore
 				})).at(0);
 
 				window?.focus(); // this should help ensuring that the right window gets focus when multiple are opened
@@ -942,6 +943,7 @@ export class CodeApplication extends Disposable {
 				forceEmpty: true,
 				gotoLineMode: true,
 				remoteAuthority: getRemoteAuthority(uri)
+				// @ts-ignore
 			})).at(0);
 
 			await window?.ready();

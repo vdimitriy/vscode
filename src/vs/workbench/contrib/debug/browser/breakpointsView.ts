@@ -1611,7 +1611,9 @@ abstract class MemoryBreakpointAction extends Action2 {
 			return;
 		}
 
+		// @ts-ignore
 		const start = BigInt(startStr);
+		// @ts-ignore
 		const end = BigInt(endStr);
 		const address = `0x${start.toString(16)}`;
 		if (sign === '-') {

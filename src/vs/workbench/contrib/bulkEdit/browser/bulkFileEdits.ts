@@ -365,6 +365,7 @@ export class BulkFileEdits {
 
 		for (let i = 1; i < edits.length; i++) {
 			const edit = edits[i];
+			// @ts-ignore
 			const lastGroup = groups.at(-1);
 			if (lastGroup?.[0].type === edit.type) {
 				lastGroup.push(edit);

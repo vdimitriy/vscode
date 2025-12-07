@@ -313,6 +313,7 @@ export class PromptBody {
 			for (let i = this.range.startLineNumber - 1, lineStartOffset = bodyOffset; i < this.range.endLineNumber - 1; i++) {
 				const line = this.linesWithEOL[i];
 				// Match markdown links: [text](link)
+				// @ts-ignore
 				const linkMatch = line.matchAll(/\[(.*?)\]\((.+?)\)/g);
 				for (const match of linkMatch) {
 					const linkEndOffset = match.index + match[0].length - 1; // before the parenthesis
@@ -324,6 +325,7 @@ export class PromptBody {
 				// Match #file:<filePath> and #tool:<toolName>
 				// Regarding the <toolName> pattern below, see also the variableReg regex in chatRequestParser.ts.
 				const reg = /#file:(?<filePath>[^\s#]+)|#tool:(?<toolName>[\w_\-\.\/]+)/gi;
+				// @ts-ignore
 				const matches = line.matchAll(reg);
 				for (const match of matches) {
 					const fullMatch = match[0];

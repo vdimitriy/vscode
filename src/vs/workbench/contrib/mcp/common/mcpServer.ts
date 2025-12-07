@@ -975,7 +975,9 @@ export class McpTool implements IMcpTool {
 		idPrefix: string,
 		private readonly _definition: ValidatedMcpTool,
 	) {
+		// @ts-ignore
 		this.referenceName = _definition.name.replaceAll('.', '_');
+		// @ts-ignore
 		this.id = (idPrefix + _definition.name).replaceAll('.', '_').slice(0, McpToolName.MaxLength);
 		this.icons = McpIcons.fromStored(this._definition._icons);
 	}

@@ -13,6 +13,7 @@ export function resolveContentAndKeybindingItems(keybindingService: IKeybindingS
 	}
 	const configureKeybindingItems: IPickerQuickAccessItem[] = [];
 	const configuredKeybindingItems: IPickerQuickAccessItem[] = [];
+	// @ts-ignore
 	const matches = value.matchAll(/(\<keybinding:(?<commandId>[^\<]*)\>)/gm);
 	for (const match of [...matches]) {
 		const commandId = match?.groups?.commandId;

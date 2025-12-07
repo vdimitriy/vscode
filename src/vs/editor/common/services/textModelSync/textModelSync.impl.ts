@@ -189,6 +189,7 @@ export class MirrorModel extends BaseMirrorModel implements ICommonModel {
 		for (let i = 0; i < this._lines.length; i++) {
 			const line = this._lines[i];
 			const offsetToAdd = this.offsetAt(new Position(i + 1, 1));
+			// @ts-ignore
 			const iteratorOverMatches = line.matchAll(regex);
 			for (const match of iteratorOverMatches) {
 				if (match.index || match.index === 0) {

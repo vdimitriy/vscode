@@ -261,6 +261,7 @@ export class MainThreadChatAgents2 extends Disposable implements MainThreadChatA
 
 			if (progress.kind === 'externalEdits') {
 				// todo@connor4312: be more specific here, pass response model through to invocation?
+				// @ts-ignore
 				const response = chatSession?.getRequests().at(-1)?.response;
 				if (chatSession?.editingSession && responsePartHandle !== undefined && response) {
 					const parts = progress.start

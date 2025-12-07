@@ -286,6 +286,7 @@ export class BulkEditService implements IBulkEditService {
 			}
 		});
 
+		// @ts-ignore
 		const result = await Promise.allSettled(saves);
 		for (const item of result) {
 			if (item.status === 'rejected') {

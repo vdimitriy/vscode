@@ -208,6 +208,7 @@ export class LocalChatSessionsProvider extends Disposable implements IChatSessio
 			description: nls.localize('chat.sessions.chatView.description', "Chat View"),
 			iconPath: Codicon.chatSparkle,
 			status,
+			// @ts-ignore
 			timing: { startTime: chatWidget?.viewModel?.model.getRequests().at(0)?.timestamp || 0 },
 			provider: this
 		};
@@ -227,6 +228,7 @@ export class LocalChatSessionsProvider extends Disposable implements IChatSessio
 						// Get the last interaction timestamp from the model
 						const requests = model.getRequests();
 						if (requests.length > 0) {
+							// @ts-ignore
 							startTime = requests.at(0)?.timestamp;
 						} else {
 							// Fallback to current time if no requests yet

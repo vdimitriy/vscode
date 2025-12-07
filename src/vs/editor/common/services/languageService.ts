@@ -95,6 +95,7 @@ export class LanguageService extends Disposable implements ILanguageService {
 
 	public guessLanguageIdByFilepathOrFirstLine(resource: URI | null, firstLine?: string): string | null {
 		const languageIds = this._registry.guessLanguageIdByFilepathOrFirstLine(resource, firstLine);
+		// @ts-ignore
 		return languageIds.at(0) ?? null;
 	}
 

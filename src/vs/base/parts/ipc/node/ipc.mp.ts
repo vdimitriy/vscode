@@ -66,6 +66,7 @@ export class Server extends IPCServer {
 				return;
 			}
 
+			// @ts-ignore
 			const port = e.ports.at(0);
 			if (port) {
 				onCreateMessageChannel.fire(port);

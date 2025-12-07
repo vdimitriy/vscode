@@ -3098,6 +3098,7 @@ export class InstallLocalExtensionsInRemoteAction extends AbstractInstallExtensi
 			await Promises.settled(vsixs.map(vsix => this.extensionManagementServerService.remoteExtensionManagementServer!.extensionManagementService.install(vsix)));
 		} finally {
 			try {
+				// @ts-ignore
 				await Promise.allSettled(vsixs.map(vsix => this.fileService.del(vsix)));
 			} catch (error) {
 				this.logService.error(error);
@@ -3157,6 +3158,7 @@ export class InstallRemoteExtensionsInLocalAction extends AbstractInstallExtensi
 			await Promises.settled(vsixs.map(vsix => this.extensionManagementServerService.localExtensionManagementServer!.extensionManagementService.install(vsix)));
 		} finally {
 			try {
+				// @ts-ignore
 				await Promise.allSettled(vsixs.map(vsix => this.fileService.del(vsix)));
 			} catch (error) {
 				this.logService.error(error);

@@ -627,6 +627,7 @@ export class NativeHostMainService extends Disposable implements INativeHostMain
 					// Use `open.apps` helper to allow cross-platform browser
 					// aliases to be looked up properly. Fallback to the
 					// configured value if not found.
+					// @ts-ignore
 					name: Object.hasOwn(apps, configuredBrowser) ? apps[(configuredBrowser as keyof typeof apps)] : configuredBrowser
 				}
 			});

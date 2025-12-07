@@ -69,6 +69,7 @@ export class TreeSitterTokenizationImpl extends Disposable {
 			owner: this,
 			changeTracker: recordChanges({ tree: this._tree.tree }),
 		}, (reader, ctx) => {
+			// @ts-ignore
 			const changeEvent = ctx.changes.at(0)?.change;
 			if (ctx.changes.length > 1) {
 				throw new BugIndicatingError('The tree changed twice in one transaction. This is currently not supported and should not happen.');
@@ -609,6 +610,7 @@ export class TreeSitterTokenizationImpl extends Disposable {
 		};
 
 		const brackets = (capture: QueryCapture, startOffset: number): number[] | undefined => {
+			// @ts-ignore
 			return (capture.name.includes('punctuation') && capture.text) ? Array.from(capture.text.matchAll(BRACKETS)).map(match => startOffset + match.index) : undefined;
 		};
 

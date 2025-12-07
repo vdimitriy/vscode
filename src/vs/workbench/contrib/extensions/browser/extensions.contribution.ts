@@ -870,6 +870,7 @@ class ExtensionsContributions extends Disposable implements IWorkbenchContributi
 				const notificationService = accessor.get(INotificationService);
 
 				const vsixs = Array.isArray(resources) ? resources : [resources];
+				// @ts-ignore
 				const result = await Promise.allSettled(vsixs.map(async (vsix) => await extensionsWorkbenchService.install(vsix, { installGivenVersion: true })));
 				let error: Error | undefined, requireReload = false, requireRestart = false;
 				for (const r of result) {

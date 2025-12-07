@@ -448,6 +448,7 @@ class CollapsibleListRenderer implements IListRenderer<IChatCollapsibleListItem,
 function getResourceLabelForGithubUri(uri: URI): IResourceLabelProps {
 	const repoPath = uri.path.split('/').slice(1, 3).join('/');
 	const filePath = uri.path.split('/').slice(5);
+	// @ts-ignore
 	const fileName = filePath.at(-1);
 	const range = getLineRangeFromGithubUri(uri);
 	return {

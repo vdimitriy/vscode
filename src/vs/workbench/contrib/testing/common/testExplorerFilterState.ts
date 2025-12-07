@@ -142,6 +142,7 @@ export class TestExplorerFilterState extends Disposable implements ITestExplorer
 
 		let globText = '';
 		let lastIndex = 0;
+		// @ts-ignore
 		for (const match of text.matchAll(tagRe)) {
 			let nextIndex = match.index + match[0].length;
 

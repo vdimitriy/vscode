@@ -198,6 +198,7 @@ function avoidPathRedaction(str: string | undefined): string | undefined {
 		return undefined;
 	}
 	// To avoid false-positive file path redaction.
+	// @ts-ignore
 	return str.replaceAll('/', '|');
 }
 

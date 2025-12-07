@@ -718,6 +718,7 @@ function focusAndSelectHandler(accessor: ServicesAccessor, select: boolean): voi
 	const breadcrumbs = accessor.get(IBreadcrumbsService);
 	const widget = breadcrumbs.getWidget(groups.activeGroup.id);
 	if (widget) {
+		// @ts-ignore
 		const item = widget.getItems().at(-1);
 		widget.setFocused(item);
 		if (select) {

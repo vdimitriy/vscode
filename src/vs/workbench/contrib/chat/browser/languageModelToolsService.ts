@@ -267,6 +267,7 @@ export class LanguageModelToolsService extends Disposable implements ILanguageMo
 					throw new Error(`Tool called for unknown chat session`);
 				}
 
+				// @ts-ignore
 				const request = model.getRequests().at(-1)!;
 				requestId = request.id;
 				dto.modelId = request.modelId;

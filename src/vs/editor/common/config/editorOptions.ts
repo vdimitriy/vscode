@@ -5442,6 +5442,7 @@ class WordSegmenterLocales extends BaseEditorOption<EditorOption.wordSegmenterLo
 			for (const locale of input) {
 				if (typeof locale === 'string') {
 					try {
+						// @ts-ignore
 						if (Intl.Segmenter.supportedLocalesOf(locale).length > 0) {
 							validLocales.push(locale);
 						}

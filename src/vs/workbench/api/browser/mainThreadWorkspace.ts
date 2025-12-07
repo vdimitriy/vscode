@@ -208,6 +208,7 @@ export class MainThreadWorkspace implements MainThreadWorkspaceShape {
 			force: !options.saveAs
 		});
 
+		// @ts-ignore
 		return this._saveResultToUris(result).at(0);
 	}
 

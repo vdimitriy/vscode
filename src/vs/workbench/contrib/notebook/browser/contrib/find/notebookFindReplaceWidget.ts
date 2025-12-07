@@ -626,6 +626,7 @@ export abstract class SimpleFindReplaceWidget extends Widget {
 			icon: findReplaceAllIcon,
 			hoverLifecycleOptions,
 			onTrigger: () => {
+				// @ts-ignore
 				this.replaceAll();
 			}
 		}, hoverService));

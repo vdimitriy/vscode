@@ -860,7 +860,9 @@ function completeListItemPattern(list: marked.Tokens.List): marked.Tokens.List |
 		// A list item can be rendered as a heading for some reason when it has a subitem where we haven't rendered the text yet like this:
 		// 1. list item
 		//    -
+		// @ts-ignore
 		const lastItem = list.items.at(-1);
+		// @ts-ignore
 		const lastToken = lastItem?.tokens.at(-1);
 		return lastToken?.type === 'heading' || lastToken?.type === 'list' && listEndsInHeading(lastToken as marked.Tokens.List);
 	};
@@ -936,6 +938,7 @@ function fillInIncompleteTokensOnce(tokens: marked.TokensList): marked.TokensLis
 		}
 	}
 
+	// @ts-ignore
 	const lastToken = tokens.at(-1);
 	if (!newTokens && lastToken?.type === 'list') {
 		const newListToken = completeListItemPattern(lastToken as marked.Tokens.List);

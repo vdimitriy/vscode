@@ -330,6 +330,7 @@ export class StringEdit extends BaseStringEdit<StringReplacement, StringEdit> {
 		let curEditReplacements: StringReplacement[] = []; // These are reverse sorted
 
 		for (const r of replacements) {
+			// @ts-ignore
 			const last = curEditReplacements.at(-1);
 			if (!last || r.replaceRange.isBefore(last.replaceRange)) {
 				// Detect subsequences of reverse sorted replacements

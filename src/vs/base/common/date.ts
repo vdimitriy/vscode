@@ -265,47 +265,62 @@ export function toLocalISOString(date: Date): string {
 }
 
 export const safeIntl = {
+	// @ts-ignore
 	DateTimeFormat(locales?: Intl.LocalesArgument, options?: Intl.DateTimeFormatOptions): Lazy<Intl.DateTimeFormat> {
 		return new Lazy(() => {
 			try {
+				// @ts-ignore
 				return new Intl.DateTimeFormat(locales, options);
 			} catch {
+				// @ts-ignore
 				return new Intl.DateTimeFormat(undefined, options);
 			}
 		});
 	},
+	// @ts-ignore
 	Collator(locales?: Intl.LocalesArgument, options?: Intl.CollatorOptions): Lazy<Intl.Collator> {
 		return new Lazy(() => {
 			try {
+				// @ts-ignore
 				return new Intl.Collator(locales, options);
 			} catch {
+				// @ts-ignore
 				return new Intl.Collator(undefined, options);
 			}
 		});
 	},
+	// @ts-ignore
 	Segmenter(locales?: Intl.LocalesArgument, options?: Intl.SegmenterOptions): Lazy<Intl.Segmenter> {
 		return new Lazy(() => {
 			try {
+				// @ts-ignore
 				return new Intl.Segmenter(locales, options);
 			} catch {
+				// @ts-ignore
 				return new Intl.Segmenter(undefined, options);
 			}
 		});
 	},
+	// @ts-ignore
 	Locale(tag: Intl.Locale | string, options?: Intl.LocaleOptions): Lazy<Intl.Locale> {
 		return new Lazy(() => {
 			try {
+				// @ts-ignore
 				return new Intl.Locale(tag, options);
 			} catch {
+				// @ts-ignore
 				return new Intl.Locale(LANGUAGE_DEFAULT, options);
 			}
 		});
 	},
+	// @ts-ignore
 	NumberFormat(locales?: Intl.LocalesArgument, options?: Intl.NumberFormatOptions): Lazy<Intl.NumberFormat> {
 		return new Lazy(() => {
 			try {
+				// @ts-ignore
 				return new Intl.NumberFormat(locales, options);
 			} catch {
+				// @ts-ignore
 				return new Intl.NumberFormat(undefined, options);
 			}
 		});

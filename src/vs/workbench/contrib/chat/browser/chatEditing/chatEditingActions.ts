@@ -60,6 +60,7 @@ export abstract class EditingSessionAction extends Action2 {
  * Resolve view title toolbar context. If none, return context from the lastFocusedWidget.
  */
 export function getEditingSessionContext(accessor: ServicesAccessor, args: any[]): { editingSession?: IChatEditingSession; chatWidget: IChatWidget } | undefined {
+	// @ts-ignore
 	const arg0 = args.at(0);
 	const context = isChatViewTitleActionContext(arg0) ? arg0 : undefined;
 

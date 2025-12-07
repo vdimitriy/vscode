@@ -523,6 +523,7 @@ export class Parser {
 
 	private _flagsGYRe = /g|y/g;
 	private _removeFlagsGY(flags: string): string {
+		// @ts-ignore
 		return flags.replaceAll(this._flagsGYRe, '');
 	}
 

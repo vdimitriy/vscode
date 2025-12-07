@@ -255,6 +255,7 @@ export class ChatEditingTextModelChangeService extends Disposable {
 		}
 
 		const sessionId = responseModel.session.sessionId;
+		// @ts-ignore
 		const request = responseModel.session.getRequests().at(-1);
 		const languageId = this.modifiedModel.getLanguageId();
 		const agent = responseModel.agent;

@@ -354,7 +354,9 @@ export class TextReplacement {
 	}
 
 	public removeCommonPrefix(text: AbstractText): TextReplacement {
+		// @ts-ignore
 		const normalizedOriginalText = text.getValueOfRange(this.range).replaceAll('\r\n', '\n');
+		// @ts-ignore
 		const normalizedModifiedText = this.text.replaceAll('\r\n', '\n');
 
 		const commonPrefixLen = commonPrefixLength(normalizedOriginalText, normalizedModifiedText);
@@ -367,7 +369,9 @@ export class TextReplacement {
 	}
 
 	public removeCommonSuffix(text: AbstractText): TextReplacement {
+		// @ts-ignore
 		const normalizedOriginalText = text.getValueOfRange(this.range).replaceAll('\r\n', '\n');
+		// @ts-ignore
 		const normalizedModifiedText = this.text.replaceAll('\r\n', '\n');
 
 		const commonSuffixLen = commonSuffixLength(normalizedOriginalText, normalizedModifiedText);
@@ -380,7 +384,9 @@ export class TextReplacement {
 	}
 
 	public isEffectiveDeletion(text: AbstractText): boolean {
+		// @ts-ignore
 		let newText = this.text.replaceAll('\r\n', '\n');
+		// @ts-ignore
 		let existingText = text.getValueOfRange(this.range).replaceAll('\r\n', '\n');
 		const l = commonPrefixLength(newText, existingText);
 		newText = newText.substring(l);

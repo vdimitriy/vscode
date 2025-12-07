@@ -332,6 +332,7 @@ class ToggleChatModeAction extends Action2 {
 			return;
 		}
 
+		// @ts-ignore
 		const arg = args.at(0) as IToggleChatModeArgs | undefined;
 		const chatSession = context.chatWidget.viewModel?.model;
 		const requestCount = chatSession?.getRequests().length ?? 0;

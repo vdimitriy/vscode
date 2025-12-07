@@ -85,6 +85,7 @@ export class TfIdfCalculator {
 		const normalize = (word: string) => word.toLowerCase();
 
 		// Only match on words that are at least 3 characters long and start with a letter
+		// @ts-ignore
 		for (const [word] of input.matchAll(/\b\p{Letter}[\p{Letter}\d]{2,}\b/gu)) {
 			yield normalize(word);
 

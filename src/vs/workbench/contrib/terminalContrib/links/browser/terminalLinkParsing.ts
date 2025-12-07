@@ -317,6 +317,7 @@ function detectLinksViaSuffix(line: string): IParsedLink[] {
 
 			// If the path contains an opening bracket, provide the path starting immediately after
 			// the opening bracket as an additional result
+			// @ts-ignore
 			const openingBracketMatch = path.matchAll(/(?<bracket>[\[\(])(?![\]\)])/g);
 			for (const match of openingBracketMatch) {
 				const bracket = match.groups?.bracket;

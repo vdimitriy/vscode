@@ -336,6 +336,7 @@ class RemoteTerminalBackend extends BaseTerminalBackend implements ITerminalBack
 				// Note that remote terminals do not get their environment re-resolved unlike in local terminals
 
 				mark('code/terminal/willReviveTerminalProcessesRemote');
+				// @ts-ignore
 				await this._remoteTerminalChannel.reviveTerminalProcesses(workspaceId, reviveBufferState, Intl.DateTimeFormat().resolvedOptions().locale);
 				mark('code/terminal/didReviveTerminalProcessesRemote');
 				this._storageService.remove(TerminalStorageKeys.TerminalBufferState, StorageScope.WORKSPACE);

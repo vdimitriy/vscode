@@ -205,6 +205,7 @@ export function registerChatTitleActions() {
 			let item = args[0];
 			if (isChatEditingActionContext(item)) {
 				// Resolve chat editing action context to the last response VM
+				// @ts-ignore
 				item = chatWidgetService.getWidgetBySessionResource(item.sessionResource)?.viewModel?.getItems().at(-1);
 			}
 			if (!isResponseVM(item)) {

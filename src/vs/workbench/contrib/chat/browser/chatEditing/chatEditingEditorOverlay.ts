@@ -76,6 +76,7 @@ class ChatEditorOverlayWidget extends Disposable {
 				return { message: localize('working', "Working...") };
 			}
 
+			// @ts-ignore
 			const lastPart = observableFromEventOpts({ equalsFn: arrays.equals }, response.onDidChange, () => response.response.value)
 				.read(r)
 				.filter(part => part.kind === 'progressMessage' || part.kind === 'toolInvocation')

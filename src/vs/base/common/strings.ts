@@ -326,6 +326,7 @@ export function replaceAsync(str: string, search: RegExp, replacer: (match: stri
 	const parts: (string | Promise<string>)[] = [];
 
 	let last = 0;
+	// @ts-ignore
 	for (const match of str.matchAll(search)) {
 		parts.push(str.slice(last, match.index));
 		if (match.index === undefined) {
@@ -797,6 +798,7 @@ const CONTROL_SEQUENCES = new RegExp('(?:' + [
 /** Iterates over parts of a string with CSI sequences */
 export function* forAnsiStringParts(str: string) {
 	let last = 0;
+	// @ts-ignore
 	for (const match of str.matchAll(CONTROL_SEQUENCES)) {
 		if (last !== match.index) {
 			yield { isCode: false, str: str.substring(last, match.index) };
@@ -1238,6 +1240,7 @@ export class AmbiguousCharacters {
 		const data = this.ambiguousCharacterData.value;
 
 		let filteredLocales = locales.filter(
+			// @ts-ignore
 			(l) => !l.startsWith('_') && Object.hasOwn(data, l)
 		);
 		if (filteredLocales.length === 0) {

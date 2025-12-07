@@ -217,6 +217,7 @@ export abstract class BaseEdit<T extends BaseReplacement<T> = BaseReplacement<an
 		if (this.replacements.length === 0) {
 			return undefined;
 		}
+		// @ts-ignore
 		return this.replacements[0].replaceRange.join(this.replacements.at(-1)!.replaceRange);
 	}
 

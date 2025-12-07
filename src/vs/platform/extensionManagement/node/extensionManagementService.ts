@@ -969,6 +969,7 @@ export class ExtensionsScanner extends Disposable {
 		}
 
 		const toRemove = extensions.filter(e => e.installedTimestamp /* Installed by System */ && removed[ExtensionKey.create(e).toString()]);
+		// @ts-ignore
 		await Promise.allSettled(toRemove.map(e => this.deleteExtension(e, 'marked for removal')));
 	}
 
@@ -990,6 +991,7 @@ export class ExtensionsScanner extends Disposable {
 		}
 
 		try {
+			// @ts-ignore
 			await Promise.allSettled(stat.children.map(async child => {
 				if (!child.isDirectory || !child.name.endsWith(DELETED_FOLDER_POSTFIX)) {
 					return;

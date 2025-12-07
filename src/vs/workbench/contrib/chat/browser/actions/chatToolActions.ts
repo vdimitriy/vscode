@@ -51,6 +51,7 @@ abstract class ToolConfirmationAction extends Action2 {
 	run(accessor: ServicesAccessor, ...args: unknown[]) {
 		const chatWidgetService = accessor.get(IChatWidgetService);
 		const widget = chatWidgetService.lastFocusedWidget;
+		// @ts-ignore
 		const lastItem = widget?.viewModel?.getItems().at(-1);
 		if (!isResponseVM(lastItem)) {
 			return;

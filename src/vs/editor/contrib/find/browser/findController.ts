@@ -404,6 +404,7 @@ export class CommonFindController extends Disposable implements IEditorContribut
 				this._notificationService.warn(nls.localize('too.large.for.replaceall', "The file is too large to perform a replace all operation."));
 				return false;
 			}
+			// @ts-ignore
 			this._model.replaceAll();
 			return true;
 		}
@@ -1115,6 +1116,7 @@ registerEditorCommand(new FindCommand({
 registerEditorCommand(new FindCommand({
 	id: FIND_IDS.ReplaceAllAction,
 	precondition: CONTEXT_FIND_WIDGET_VISIBLE,
+	// @ts-ignore
 	handler: x => x.replaceAll(),
 	kbOpts: {
 		weight: KeybindingWeight.EditorContrib + 5,
@@ -1126,6 +1128,7 @@ registerEditorCommand(new FindCommand({
 registerEditorCommand(new FindCommand({
 	id: FIND_IDS.ReplaceAllAction,
 	precondition: CONTEXT_FIND_WIDGET_VISIBLE,
+	// @ts-ignore
 	handler: x => x.replaceAll(),
 	kbOpts: {
 		weight: KeybindingWeight.EditorContrib + 5,

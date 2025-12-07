@@ -179,6 +179,7 @@ export class UserDataSyncInitializer implements IUserDataInitializer {
 	async initializeOtherResources(instantiationService: IInstantiationService): Promise<void> {
 		try {
 			this.logService.trace(`UserDataInitializationService#initializeOtherResources`);
+			// @ts-ignore
 			await Promise.allSettled([this.initialize([SyncResource.Keybindings, SyncResource.Snippets, SyncResource.Tasks]), this.initializeExtensions(instantiationService)]);
 		} finally {
 			this.initializationFinished.open();

@@ -10,6 +10,7 @@ interface IWindowChainElement {
 	/**
 	 * The window object for it
 	 */
+	// @ts-ignore
 	readonly window: WeakRef<Window>;
 	/**
 	 * The iframe element inside the window.parent corresponding to window
@@ -55,11 +56,13 @@ export class IframeUtils {
 				parent = getParentWindowIfSameOrigin(w);
 				if (parent) {
 					windowChainCache.push({
+						// @ts-ignore
 						window: new WeakRef(w),
 						iframeElement: w.frameElement || null
 					});
 				} else {
 					windowChainCache.push({
+						// @ts-ignore
 						window: new WeakRef(w),
 						iframeElement: null
 					});
@@ -131,5 +134,6 @@ function sha256AsBase32(bytes: ArrayBuffer): string {
 	const array = Array.from(new Uint8Array(bytes));
 	const hexArray = array.map(b => b.toString(16).padStart(2, '0')).join('');
 	// sha256 has 256 bits, so we need at most ceil(lg(2^256-1)/lg(32)) = 52 chars to represent it in base 32
+	// @ts-ignore
 	return BigInt(`0x${hexArray}`).toString(32).padStart(52, '0');
 }

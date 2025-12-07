@@ -167,6 +167,7 @@ export class ChatEditingCodeEditorIntegration implements IModifiedFileEntryEdito
 		// accessibility: signals while cursor changes
 		// ctx: cursor in change range
 		this._store.add(autorun(r => {
+			// @ts-ignore
 			const position = codeEditorObs.positions.read(r)?.at(0);
 			if (!position || !enabledObs.read(r)) {
 				_ctxCursorInChangeRange.reset();
@@ -516,6 +517,7 @@ export class ChatEditingCodeEditorIntegration implements IModifiedFileEntryEdito
 			.sort((a, b) => Range.compareRangesUsingStarts(a, b));
 
 		const index = firstOrLast ? 0 : decorations.length - 1;
+		// @ts-ignore
 		const range = decorations.at(index);
 		if (range) {
 			this._editor.setPosition(range.getStartPosition());

@@ -3529,6 +3529,7 @@ export abstract class AbstractTaskService extends Disposable implements ITaskSer
 
 		// Restart all active tasks
 		const restartPromises = activeTasks.map(task => this._restart(task));
+		// @ts-ignore
 		await Promise.allSettled(restartPromises);
 	}
 

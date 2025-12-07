@@ -21,6 +21,7 @@ const intlFileNameCollatorBaseNumeric: Lazy<{ collator: Intl.Collator; collatorI
 });
 
 // A collator with numeric sorting enabled.
+// @ts-ignore
 const intlFileNameCollatorNumeric: Lazy<{ collator: Intl.Collator }> = new Lazy(() => {
 	const collator = safeIntl.Collator(undefined, { numeric: true }).value;
 	return {
@@ -29,6 +30,7 @@ const intlFileNameCollatorNumeric: Lazy<{ collator: Intl.Collator }> = new Lazy(
 });
 
 // A collator with numeric sorting enabled, and sensitivity to accents and diacritics but not case.
+// @ts-ignore
 const intlFileNameCollatorNumericCaseInsensitive: Lazy<{ collator: Intl.Collator }> = new Lazy(() => {
 	const collator = safeIntl.Collator(undefined, { numeric: true, sensitivity: 'accent' }).value;
 	return {
@@ -198,6 +200,7 @@ function extractExtension(str?: string | null): string {
 	return (match && match[1] && match[1].charAt(0) !== '.' && match[3]) || '';
 }
 
+// @ts-ignore
 function compareAndDisambiguateByLength(collator: Intl.Collator, one: string, other: string) {
 	// Check for differences
 	const result = collator.compare(one, other);

@@ -24,6 +24,7 @@ export function mockObject<TObject extends object>(
 
 	const keys: (keyof Partial<TObject>)[] = [];
 	for (const key in overrides) {
+		// @ts-ignore
 		if (Object.hasOwn(overrides, key)) {
 			keys.push(key);
 		}

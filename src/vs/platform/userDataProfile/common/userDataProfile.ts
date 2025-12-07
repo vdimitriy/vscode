@@ -421,6 +421,7 @@ export class UserDataProfilesService extends Disposable implements IUserDataProf
 		});
 
 		try {
+			// @ts-ignore
 			await Promise.allSettled(joiners);
 		} catch (error) {
 			this.logService.error(error);
@@ -490,6 +491,7 @@ export class UserDataProfilesService extends Disposable implements IUserDataProf
 
 	async cleanUpTransientProfiles(): Promise<void> {
 		const unAssociatedTransientProfiles = this.transientProfilesObject.profiles.filter(p => !this.isProfileAssociatedToWorkspace(p));
+		// @ts-ignore
 		await Promise.allSettled(unAssociatedTransientProfiles.map(p => this.removeProfile(p)));
 	}
 

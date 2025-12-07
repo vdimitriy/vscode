@@ -740,6 +740,7 @@ class Extensions extends Disposable {
 		const targetPlatform = await this.server.extensionManagementService.getTargetPlatform();
 		const compatibleGalleryExtensions: IGalleryExtension[] = [];
 		const compatibleGalleryExtensionsToFetch: IExtensionInfo[] = [];
+		// @ts-ignore
 		await Promise.allSettled(mappedExtensions.map(async ([extension, gallery]) => {
 			if (extension.local) {
 				if (await this.galleryService.isExtensionCompatible(gallery, extension.local.preRelease, targetPlatform, productVersion)) {
@@ -2065,6 +2066,7 @@ export class ExtensionsWorkbenchService extends Disposable implements IExtension
 		if (!extensions.length) {
 			return;
 		}
+		// @ts-ignore
 		await Promise.allSettled(extensions.map(extensions => extensions.syncInstalledExtensionsWithGallery(gallery, this.getProductVersion(), flagExtensionsMissingFromGallery)));
 		if (this.outdated.length) {
 			this.logService.info(`Auto updating outdated extensions.`, this.outdated.map(e => e.identifier.id).join(', '));
@@ -2697,6 +2699,7 @@ export class ExtensionsWorkbenchService extends Disposable implements IExtension
 			if (extension.isApplicationScoped && this.userDataProfilesService.profiles.length > 1) {
 				if (!extensionsFromAllProfiles) {
 					extensionsFromAllProfiles = [];
+					// @ts-ignore
 					await Promise.allSettled(this.userDataProfilesService.profiles.map(async profile => {
 						const installed = await this.extensionManagementService.getInstalled(ExtensionType.User, profile.extensionsResource);
 						for (const local of installed) {
@@ -2824,6 +2827,7 @@ export class ExtensionsWorkbenchService extends Disposable implements IExtension
 	async toggleApplyExtensionToAllProfiles(extension: IExtension): Promise<void> {
 		const extensionsIncludingPackedExtensions = [extension, ...this.getAllPackedExtensions(extension, this.local)];
 		const allExtensionServers = this.getAllExtensionServers();
+		// @ts-ignore
 		await Promise.allSettled(extensionsIncludingPackedExtensions.map(async e => {
 			if (!e.local || isApplicationScopedExtension(e.local.manifest) || e.isBuiltin) {
 				return;

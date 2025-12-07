@@ -408,6 +408,7 @@ export class ChatEditingSession extends Disposable implements IChatEditingSessio
 	private _stopPromise: Promise<void> | undefined;
 
 	async stop(clearState = false): Promise<void> {
+		// @ts-ignore
 		this._stopPromise ??= Promise.allSettled([this._performStop(), this.storeState()]).then(() => { });
 		await this._stopPromise;
 		if (clearState) {
@@ -418,6 +419,7 @@ export class ChatEditingSession extends Disposable implements IChatEditingSessio
 	private async _performStop(): Promise<void> {
 		// Close out all open files
 		const schemes = [AbstractChatEditingModifiedFileEntry.scheme, ChatEditingTextModelContentProvider.scheme];
+		// @ts-ignore
 		await Promise.allSettled(this._editorGroupsService.groups.flatMap(async (g) => {
 			return g.editors.map(async (e) => {
 				if ((e instanceof MultiDiffEditorInput && e.initialResources?.some(r => r.originalUri && schemes.indexOf(r.originalUri.scheme) !== -1))

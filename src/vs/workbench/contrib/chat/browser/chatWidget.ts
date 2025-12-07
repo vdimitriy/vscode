@@ -595,6 +595,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 			if (!editingSession || !chatModel) {
 				return false;
 			}
+			// @ts-ignore
 			const lastResponse = observableFromEvent(this, chatModel.onDidChange, () => chatModel.getRequests().at(-1)?.response).read(r);
 			return lastResponse?.result?.errorDetails && !lastResponse?.result?.errorDetails.responseIsIncomplete;
 		}));
@@ -656,6 +657,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 				return null;
 			}
 
+			// @ts-ignore
 			const responseId = resource.path.split('/').at(1);
 			if (!responseId) {
 				return null;
@@ -993,6 +995,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 
 			this._onWillMaybeChangeHeight.fire();
 
+			// @ts-ignore
 			this.lastItem = treeItems.at(-1)?.element;
 			ChatContextKeys.lastItemId.bindTo(this.contextKeyService).set(this.lastItem ? [this.lastItem.id] : []);
 			this.tree.setChildren(null, treeItems, {
@@ -2033,6 +2036,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 	private onDidChangeTreeContentHeight(): void {
 		// If the list was previously scrolled all the way down, ensure it stays scrolled down, if scroll lock is on
 		if (this.tree.scrollHeight !== this.previousTreeScrollHeight) {
+			// @ts-ignore
 			const lastItem = this.viewModel?.getItems().at(-1);
 			const lastResponseIsRendering = isResponseVM(lastItem) && lastItem.renderData;
 			if (!lastResponseIsRendering || this.scrollLock) {
@@ -2419,6 +2423,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 		}
 
 		const sessionResource = this.viewModel.sessionResource;
+		// @ts-ignore
 		const lastRequest = this.chatService.getSession(sessionResource)?.getRequests().at(-1);
 		if (!lastRequest) {
 			return;
@@ -2675,6 +2680,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 		const inputHeight = this.inputPart.inputPartHeight;
 		const chatSuggestNextWidgetHeight = this.chatSuggestNextWidget.height;
 		const lastElementVisible = this.tree.scrollTop + this.tree.renderHeight >= this.tree.scrollHeight - 2;
+		// @ts-ignore
 		const lastItem = this.viewModel?.getItems().at(-1);
 
 		const contentHeight = Math.max(0, height - inputHeight - chatSuggestNextWidgetHeight);

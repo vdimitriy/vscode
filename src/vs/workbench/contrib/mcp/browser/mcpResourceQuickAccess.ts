@@ -177,6 +177,7 @@ export class McpResourcePickHelper {
 			}
 		}
 
+		// @ts-ignore
 		let placeholder = localize('mcp.resource.template.placeholder', "Value for ${0} in {1}", variable.name.toUpperCase(), rt.template.resolve(variablesWithPlaceholders).replaceAll('%24', '$'));
 		if (variable.optional) {
 			placeholder += ' (' + localize('mcp.resource.template.optional', "Optional") + ')';

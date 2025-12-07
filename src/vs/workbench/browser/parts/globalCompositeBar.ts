@@ -341,6 +341,7 @@ export class AccountsActivityActionViewItem extends AbstractGlobalActivityAction
 
 	private async doInitialize(): Promise<void> {
 		const providerIds = this.authenticationService.getProviderIds();
+		// @ts-ignore
 		const results = await Promise.allSettled(providerIds.map(providerId => this.addAccountsFromProvider(providerId)));
 
 		// Log any errors that occurred while initializing. We try to be best effort here to show the most amount of accounts

@@ -98,6 +98,7 @@ function getRelativePathLabel(resource: URI, relativePathProvider: IRelativePath
 	const extUriLib = os === OperatingSystem.Linux ? extUri : extUriIgnorePathCase;
 
 	const workspace = relativePathProvider.getWorkspace();
+	// @ts-ignore
 	const firstFolder = workspace.folders.at(0);
 	if (!firstFolder) {
 		return undefined;

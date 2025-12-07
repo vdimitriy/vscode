@@ -52,6 +52,7 @@ export class CachedExtensionScanner {
 	private async _scanInstalledExtensions(): Promise<IExtensionDescription[]> {
 		try {
 			const language = platform.language;
+			// @ts-ignore
 			const result = await Promise.allSettled([
 				this._extensionsScannerService.scanSystemExtensions({ language, checkControlFile: true }),
 				this._extensionsScannerService.scanUserExtensions({ language, profileLocation: this._userDataProfileService.currentProfile.extensionsResource, useCache: true }),

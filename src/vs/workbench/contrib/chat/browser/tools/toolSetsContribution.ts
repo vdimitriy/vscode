@@ -141,6 +141,7 @@ export class UserToolSetsContributions extends Disposable implements IWorkbenchC
 		@ILogService private readonly _logService: ILogService,
 	) {
 		super();
+		// @ts-ignore
 		Promise.allSettled([
 			extensionService.whenInstalledExtensionsRegistered,
 			lifecycleService.when(LifecyclePhase.Restored)

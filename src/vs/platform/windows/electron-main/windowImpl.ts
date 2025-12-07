@@ -1020,6 +1020,7 @@ export class CodeWindow extends BaseWindow implements ICodeWindow {
 					forceEmpty,
 					forceNewWindow: true,
 					remoteAuthority: this.remoteAuthority
+					// @ts-ignore
 				})).at(0);
 				window?.focus();
 			}

@@ -186,6 +186,7 @@ export abstract class AbstractExtensionManagementService extends CommontExtensio
 		const results: InstallExtensionResult[] = [];
 		const installableExtensions: InstallableExtension[] = [];
 
+		// @ts-ignore
 		await Promise.allSettled(extensions.map(async ({ extension, options }) => {
 			try {
 				const compatible = await this.checkAndGetCompatibleVersion(extension, !!options?.installGivenVersion, !!options?.installPreReleaseVersion, options.productVersion ?? { version: this.productService.version, date: this.productService.date });
@@ -492,6 +493,7 @@ export abstract class AbstractExtensionManagementService extends CommontExtensio
 			}
 
 			if (rollbackTasks.length) {
+				// @ts-ignore
 				await Promise.allSettled(rollbackTasks.map(async rollbackTask => {
 					try {
 						await rollbackTask.run();

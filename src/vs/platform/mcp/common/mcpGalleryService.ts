@@ -760,6 +760,7 @@ export class McpGalleryService extends Disposable implements IMcpGalleryService 
 		}
 
 		const mcpServers: IGalleryMcpServer[] = [];
+		// @ts-ignore
 		await Promise.allSettled(infos.map(async info => {
 			const mcpServer = await this.getMcpServerByName(info, mcpGalleryManifest);
 			if (mcpServer) {

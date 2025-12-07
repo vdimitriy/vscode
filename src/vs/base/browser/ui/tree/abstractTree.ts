@@ -2976,6 +2976,7 @@ export abstract class AbstractTree<T, TFilterData, TRef> implements IDisposable 
 	}
 
 	getAnchor(): T | undefined {
+		// @ts-ignore
 		return this.anchor.get().at(0);
 	}
 

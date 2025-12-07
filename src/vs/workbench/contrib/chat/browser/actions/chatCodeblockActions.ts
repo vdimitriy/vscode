@@ -177,6 +177,7 @@ export function registerChatCodeBlockActions() {
 					}
 				});
 
+				// @ts-ignore
 				const codeBlockInfo = context.element.model.codeBlockInfos?.at(context.codeBlockIndex);
 				aiEditTelemetryService.handleCodeAccepted({
 					acceptanceMethod: 'copyButton',
@@ -244,6 +245,7 @@ export function registerChatCodeBlockActions() {
 				}
 			});
 
+			// @ts-ignore
 			const codeBlockInfo = element.model.codeBlockInfos?.at(context.codeBlockIndex);
 			aiEditTelemetryService.handleCodeAccepted({
 				acceptanceMethod: 'copyManual',
@@ -400,6 +402,7 @@ export function registerChatCodeBlockActions() {
 					}
 				});
 
+				// @ts-ignore
 				const codeBlockInfo = context.element.model.codeBlockInfos?.at(context.codeBlockIndex);
 
 				aiEditTelemetryService.handleCodeAccepted({

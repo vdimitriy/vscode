@@ -283,6 +283,7 @@ export class EditorParts extends MultiWindowParts<EditorPart, IEditorPartsMement
 			}
 		}
 
+		// @ts-ignore
 		const mostRecentActivePart = this.mostRecentActiveParts.at(0);
 		mostRecentActivePart?.activeGroup.focus();
 
@@ -290,6 +291,7 @@ export class EditorParts extends MultiWindowParts<EditorPart, IEditorPartsMement
 		this.whenReadyPromise.complete();
 
 		// Await restored
+		// @ts-ignore
 		await Promise.allSettled(this.parts.map(part => part.whenRestored));
 		this.whenRestoredPromise.complete();
 	}
@@ -331,6 +333,7 @@ export class EditorParts extends MultiWindowParts<EditorPart, IEditorPartsMement
 			}
 
 			// Await creation
+			// @ts-ignore
 			await Promise.allSettled(auxiliaryEditorPartPromises);
 
 			// Update MRU list
@@ -341,6 +344,7 @@ export class EditorParts extends MultiWindowParts<EditorPart, IEditorPartsMement
 			}
 
 			// Await ready
+			// @ts-ignore
 			await Promise.allSettled(this.parts.map(part => part.whenReady));
 		}
 	}
@@ -453,6 +457,7 @@ export class EditorParts extends MultiWindowParts<EditorPart, IEditorPartsMement
 
 		// Restore Focus unless instructed otherwise
 		if (!options?.preserveFocus) {
+			// @ts-ignore
 			const mostRecentActivePart = this.mostRecentActiveParts.at(0);
 			if (mostRecentActivePart) {
 				await mostRecentActivePart.whenReady;

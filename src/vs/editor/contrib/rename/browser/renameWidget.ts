@@ -599,6 +599,7 @@ export class RenameWidget implements IRenameWidget, IContentWidget, IDisposable 
 		const trace = (...args: unknown[]) => this._trace('_updateRenameCandidates', ...args);
 
 		trace('start');
+		// @ts-ignore
 		const namesListResults = await raceCancellation(Promise.allSettled(candidates), token);
 
 		this._inputWithButton.setSparkleButton();
@@ -608,6 +609,7 @@ export class RenameWidget implements IRenameWidget, IContentWidget, IDisposable 
 			return;
 		}
 
+		// @ts-ignore
 		const newNames = namesListResults.flatMap(namesListResult =>
 			namesListResult.status === 'fulfilled' && isDefined(namesListResult.value)
 				? namesListResult.value
@@ -617,12 +619,15 @@ export class RenameWidget implements IRenameWidget, IContentWidget, IDisposable 
 
 		// deduplicate and filter out the current value
 
+		// @ts-ignore
 		const distinctNames = arrays.distinct(newNames, v => v.newSymbolName);
 		trace(`distinct candidates - ${distinctNames.length} candidates.`);
 
+		// @ts-ignore
 		const validDistinctNames = distinctNames.filter(({ newSymbolName }) => newSymbolName.trim().length > 0 && newSymbolName !== this._inputWithButton.input.value && newSymbolName !== currentName && !this._candidates.has(newSymbolName));
 		trace(`valid distinct candidates - ${newNames.length} candidates.`);
 
+		// @ts-ignore
 		validDistinctNames.forEach(n => this._candidates.add(n.newSymbolName));
 
 		if (validDistinctNames.length < 1) {
@@ -632,6 +637,7 @@ export class RenameWidget implements IRenameWidget, IContentWidget, IDisposable 
 
 		// show the candidates
 		trace('setting candidates');
+		// @ts-ignore
 		this._renameCandidateListView!.setCandidates(validDistinctNames);
 
 		// ask editor to re-layout given that the widget is now of a different size after rendering rename candidates

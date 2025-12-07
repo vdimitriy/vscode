@@ -477,6 +477,7 @@ export class MergeEditorModel extends EditorModel {
 
 		if (!input1Handled || !input2Handled) {
 			this.undoRedoService.pushElement(
+				// @ts-ignore
 				new MarkAsHandledUndoRedoElement(this.resultTextModel.uri, new WeakRef(this), new WeakRef(existingState), input1Handled, input2Handled),
 				group
 			);
@@ -521,7 +522,9 @@ export class MergeEditorModel extends EditorModel {
 			return;
 		}
 
+		// @ts-ignore
 		const dataRef = new WeakRef(ModifiedBaseRangeData);
+		// @ts-ignore
 		const modelRef = new WeakRef(this);
 
 		this.undoRedoService.pushElement({
@@ -813,7 +816,9 @@ class MarkAsHandledUndoRedoElement implements IResourceUndoRedoElement {
 
 	constructor(
 		public readonly resource: URI,
+		// @ts-ignore
 		private readonly mergeEditorModelRef: WeakRef<MergeEditorModel>,
+		// @ts-ignore
 		private readonly stateRef: WeakRef<ModifiedBaseRangeData>,
 		private readonly input1Handled: boolean,
 		private readonly input2Handled: boolean,

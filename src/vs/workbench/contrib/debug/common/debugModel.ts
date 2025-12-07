@@ -1382,6 +1382,7 @@ export interface IInstructionBreakpointOptions extends IBaseBreakpointOptions {
 	instructionReference: string;
 	offset: number;
 	canPersist: boolean;
+	// @ts-ignore
 	address: bigint;
 }
 
@@ -1389,6 +1390,7 @@ export class InstructionBreakpoint extends BaseBreakpoint implements IInstructio
 	public readonly instructionReference: string;
 	public readonly offset: number;
 	public readonly canPersist: boolean;
+	// @ts-ignore
 	public readonly address: bigint;
 
 	constructor(

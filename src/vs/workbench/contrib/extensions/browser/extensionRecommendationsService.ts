@@ -90,6 +90,7 @@ export class ExtensionRecommendationsService extends Disposable implements IExte
 
 	private async activate(): Promise<void> {
 		try {
+			// @ts-ignore
 			await Promise.allSettled([
 				this.remoteExtensionsScannerService.whenExtensionsReady(),
 				this.userDataInitializationService.whenInitializationFinished(),

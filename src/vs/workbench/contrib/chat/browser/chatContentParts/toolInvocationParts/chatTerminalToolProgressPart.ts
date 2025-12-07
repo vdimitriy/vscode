@@ -108,6 +108,7 @@ export class ChatTerminalToolProgressPart extends BaseChatToolInvocationSubPart 
 				`$(${Codicon.terminal.id})`,
 				``,
 				`\`\`\`${terminalData.language}`,
+				// @ts-ignore
 				`${command.replaceAll('```', '\\`\\`\\`')}`,
 				`\`\`\``
 			].join('\n'), { supportThemeIcons: true }),

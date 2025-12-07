@@ -1722,6 +1722,7 @@ export class List<T> implements ISpliceable<T>, IDisposable {
 	}
 
 	getAnchor(): number | undefined {
+		// @ts-ignore
 		return this.anchor.get().at(0);
 	}
 

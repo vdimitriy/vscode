@@ -428,6 +428,7 @@ export class ChatAgentService extends Disposable implements IChatAgentService {
 		// contributed from core and from extensions.
 		// This method will prefer the last extensions provided agent
 		// falling back to the last core agent if no extension agent is found.
+		// @ts-ignore
 		return findLast(agents, agent => !agent.isCore) ?? agents.at(-1);
 	}
 

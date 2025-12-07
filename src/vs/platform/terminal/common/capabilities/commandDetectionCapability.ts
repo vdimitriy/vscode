@@ -283,6 +283,7 @@ export class CommandDetectionCapability extends Disposable implements ICommandDe
 		// Adjust the last command's finished marker when needed. The standard position for the
 		// finished marker `D` to appear is at the same position as the following prompt started
 		// `A`. Only do this when it would not extend past the current cursor position.
+		// @ts-ignore
 		const lastCommand = this.commands.at(-1);
 		if (
 			lastCommand?.endMarker &&
@@ -745,6 +746,7 @@ class WindowsPtyHeuristics extends Disposable {
 						this._capability.currentCommand.promptStartMarker = cloneMarker(this._terminal, this._capability.currentCommand.commandStartMarker);
 						// Adjust the last command if it's not in the same position as the following
 						// prompt start marker
+						// @ts-ignore
 						const lastCommand = this._capability.commands.at(-1);
 						if (lastCommand && this._capability.currentCommand.commandStartMarker.line !== lastCommand.endMarker?.line) {
 							lastCommand.endMarker?.dispose();
@@ -909,6 +911,7 @@ class WindowsPtyHeuristics extends Disposable {
 	}
 
 	private _cursorOnNextLine(): boolean {
+		// @ts-ignore
 		const lastCommand = this._capability.commands.at(-1);
 
 		// There is only a single command, so this check is unnecessary

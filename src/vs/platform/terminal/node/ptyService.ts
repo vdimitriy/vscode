@@ -246,6 +246,7 @@ export class PtyService extends Disposable implements IPtyService {
 		// cursor back at to top left.
 		let postRestoreMessage = '';
 		if (isWindows) {
+			// @ts-ignore
 			const lastReplayEvent = terminal.replayEvent.events.length > 0 ? terminal.replayEvent.events.at(-1) : undefined;
 			if (lastReplayEvent) {
 				postRestoreMessage += '\r\n'.repeat(lastReplayEvent.rows - 1) + `\x1b[H`;

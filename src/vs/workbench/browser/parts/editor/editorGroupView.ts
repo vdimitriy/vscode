@@ -1307,6 +1307,7 @@ export class EditorGroupView extends Themable implements IEditorGroupView {
 		const editorsToOpen = coalesce(editors).filter(({ editor }) => !editor.isDisposed());
 
 		// Use the first editor as active editor
+		// @ts-ignore
 		const firstEditor = editorsToOpen.at(0);
 		if (!firstEditor) {
 			return;

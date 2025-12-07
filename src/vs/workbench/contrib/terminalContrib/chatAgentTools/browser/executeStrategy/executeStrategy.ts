@@ -201,6 +201,7 @@ export async function trackIdleOnPrompt(
 	store.add(onData(e => {
 		// Update state
 		// p10k fires C as `133;C;`
+		// @ts-ignore
 		const matches = e.matchAll(/(?:\x1b\]|\x9d)[16]33;(?<type>[ACD])(?:;.*)?(?:\x1b\\|\x07|\x9c)/g);
 		for (const match of matches) {
 			if (match.groups?.type === 'A') {

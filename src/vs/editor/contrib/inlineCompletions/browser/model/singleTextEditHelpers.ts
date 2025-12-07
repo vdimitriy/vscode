@@ -14,6 +14,7 @@ export function singleTextRemoveCommonPrefix(edit: TextReplacement, model: IText
 	if (!modelRange) {
 		return edit;
 	}
+	// @ts-ignore
 	const normalizedText = edit.text.replaceAll('\r\n', '\n');
 	const valueToReplace = model.getValueInRange(modelRange, EndOfLinePreference.LF);
 	const commonPrefixLen = commonPrefixLength(valueToReplace, normalizedText);

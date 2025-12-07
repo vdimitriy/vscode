@@ -52,6 +52,7 @@ export function getNWords(str: string, numWordsToCount: number): IWordCountResul
 	const backtick = '`';
 
 	const wordRegExp = new RegExp('(?:' + linkPattern + ')|(?:' + markedKatexExtension.mathInlineRegExp.source + r`)|\p{sc=Han}|=+|\++|-+|[^\s\|\p{sc=Han}|=|\+|\-|${backtick}]+`, 'gu');
+	// @ts-ignore
 	const allWordMatches = Array.from(str.matchAll(wordRegExp));
 
 	const targetWords = allWordMatches.slice(0, numWordsToCount);

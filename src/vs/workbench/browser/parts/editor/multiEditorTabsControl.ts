@@ -537,6 +537,7 @@ export class MultiEditorTabsControl extends EditorTabsControl {
 		if (
 			activeEditorChanged ||																				// active editor changed
 			oldTabLabels.length !== this.tabLabels.length ||													// number of tabs changed
+			// @ts-ignore
 			oldTabLabels.some((label, index) => !this.equalsEditorInputLabel(label, this.tabLabels.at(index))) 	// editor labels changed
 		) {
 			this.redraw({ forceRevealActiveTab: true });

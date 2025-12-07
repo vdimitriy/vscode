@@ -398,14 +398,17 @@ export async function getUriLabelForShell(uri: URI | string, backend: Pick<ITerm
 			return backend.getWslPath(path.replaceAll('/', '\\'), 'win-to-unix');
 		} else if (shellType === WindowsShellType.GitBash) {
 			// Convert \ to / and replace 'c:\' with '/c/'.
+			// @ts-ignore
 			return path.replaceAll('\\', '/').replace(/^([a-zA-Z]):\//, '/$1/');
 		} else {
 			// If the frontend is not Windows but the terminal is, convert / to \.
 			path = typeof uri === 'string' ? path : uriToFsPath(uri, true);
+			// @ts-ignore
 			return !isWindowsFrontend ? path.replaceAll('/', '\\') : path;
 		}
 	} else {
 		// If the frontend is Windows but the terminal is not, convert \ to /.
+		// @ts-ignore
 		return isWindowsFrontend ? path.replaceAll('\\', '/') : path;
 	}
 }

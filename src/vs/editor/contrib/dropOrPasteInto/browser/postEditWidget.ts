@@ -176,6 +176,7 @@ export class PostEditWidgetManager<T extends DocumentPasteEdit | DocumentDropEdi
 		}
 
 		const model = this._editor.getModel();
+		// @ts-ignore
 		const edit = edits.allEdits.at(edits.activeEditIndex);
 		if (!edit) {
 			return;
