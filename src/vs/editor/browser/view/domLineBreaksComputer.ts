@@ -13,7 +13,7 @@ import { FontInfo } from '../../common/config/fontInfo.js';
 import { StringBuilder } from '../../common/core/stringBuilder.js';
 import { InjectedTextOptions } from '../../common/model.js';
 import { ILineBreaksComputer, ILineBreaksComputerFactory, ModelLineProjectionData } from '../../common/modelLineProjectionData.js';
-import { LineInjectedText } from '../../common/textModelEvents.js';
+import { InlineFoldRange, LineInjectedText } from '../../common/textModelEvents.js';
 
 const ttPolicy = createTrustedTypesPolicy('domLineBreaksComputer', { createHTML: value => value });
 
@@ -31,19 +31,21 @@ export class DOMLineBreaksComputerFactory implements ILineBreaksComputerFactory 
 	public createLineBreaksComputer(fontInfo: FontInfo, tabSize: number, wrappingColumn: number, wrappingIndent: WrappingIndent, wordBreak: 'normal' | 'keepAll', wrapOnEscapedLineFeeds: boolean): ILineBreaksComputer {
 		const requests: string[] = [];
 		const injectedTexts: (LineInjectedText[] | null)[] = [];
+		const inlineFoldsRanges: (InlineFoldRange[] | null)[] = [];
 		return {
-			addRequest: (lineText: string, injectedText: LineInjectedText[] | null, previousLineBreakData: ModelLineProjectionData | null) => {
+			addRequest: (lineText: string, injectedText: LineInjectedText[] | null, inlineFolds: InlineFoldRange[] | null, previousLineBreakData: ModelLineProjectionData | null) => {
 				requests.push(lineText);
 				injectedTexts.push(injectedText);
+				inlineFoldsRanges.push(inlineFolds);
 			},
 			finalize: () => {
-				return createLineBreaks(assertReturnsDefined(this.targetWindow.deref()), requests, fontInfo, tabSize, wrappingColumn, wrappingIndent, wordBreak, injectedTexts);
+				return createLineBreaks(assertReturnsDefined(this.targetWindow.deref()), requests, fontInfo, tabSize, wrappingColumn, wrappingIndent, wordBreak, injectedTexts, inlineFoldsRanges);
 			}
 		};
 	}
 }
 
-function createLineBreaks(targetWindow: Window, requests: string[], fontInfo: FontInfo, tabSize: number, firstLineBreakColumn: number, wrappingIndent: WrappingIndent, wordBreak: 'normal' | 'keepAll', injectedTextsPerLine: (LineInjectedText[] | null)[]): (ModelLineProjectionData | null)[] {
+function createLineBreaks(targetWindow: Window, requests: string[], fontInfo: FontInfo, tabSize: number, firstLineBreakColumn: number, wrappingIndent: WrappingIndent, wordBreak: 'normal' | 'keepAll', injectedTextsPerLine: (LineInjectedText[] | null)[], inlineFoldsPerLine: (InlineFoldRange[] | null)[]): (ModelLineProjectionData | null)[] {
 	function createEmptyLineBreakWithPossiblyInjectedText(requestIdx: number): ModelLineProjectionData | null {
 		const injectedTexts = injectedTextsPerLine[requestIdx];
 		if (injectedTexts) {
@@ -54,7 +56,7 @@ function createLineBreaks(targetWindow: Window, requests: string[], fontInfo: Fo
 
 			// creating a `LineBreakData` with an invalid `breakOffsetsVisibleColumn` is OK
 			// because `breakOffsetsVisibleColumn` will never be used because it contains injected text
-			return new ModelLineProjectionData(injectionOffsets, injectionOptions, [lineText.length], [], 0);
+			return new ModelLineProjectionData(injectionOffsets, injectionOptions, [lineText.length], [], null, 0);
 		} else {
 			return null;
 		}
@@ -83,7 +85,8 @@ function createLineBreaks(targetWindow: Window, requests: string[], fontInfo: Fo
 	const allCharOffsets: number[][] = [];
 	const allVisibleColumns: number[][] = [];
 	for (let i = 0; i < requests.length; i++) {
-		const lineContent = LineInjectedText.applyInjectedText(requests[i], injectedTextsPerLine[i]);
+		const contentWithInjectedText = LineInjectedText.applyInjectedText(requests[i], injectedTextsPerLine[i]);
+		const lineContent = InlineFoldRange.applyInlineFoldsWithInjectedText(contentWithInjectedText, inlineFoldsPerLine[i], injectedTextsPerLine[i]);
 
 		let firstNonWhitespaceIndex = 0;
 		let wrappedTextIndentLength = 0;
@@ -183,7 +186,10 @@ function createLineBreaks(targetWindow: Window, requests: string[], fontInfo: Fo
 			injectionOffsets = null;
 		}
 
-		result[i] = new ModelLineProjectionData(injectionOffsets, injectionOptions, breakOffsets, breakOffsetsVisibleColumn, wrappedTextIndentLength);
+		const curInlineFolds = inlineFoldsPerLine[i];
+		const foldingOffset = InlineFoldRange.getFoldingOffset(curInlineFolds, curInjectedTexts);
+
+		result[i] = new ModelLineProjectionData(injectionOffsets, injectionOptions, breakOffsets, breakOffsetsVisibleColumn, foldingOffset, wrappedTextIndentLength);
 	}
 
 	containerDomNode.remove();

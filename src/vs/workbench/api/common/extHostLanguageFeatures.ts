@@ -27,7 +27,7 @@ import { encodeSemanticTokensDto } from '../../../editor/common/services/semanti
 import { localize } from '../../../nls.js';
 import { ExtensionIdentifier, IExtensionDescription } from '../../../platform/extensions/common/extensions.js';
 import { ILogService } from '../../../platform/log/common/log.js';
-import { isProposedApiEnabled } from '../../services/extensions/common/extensions.js';
+import { checkProposedApiEnabled, isProposedApiEnabled } from '../../services/extensions/common/extensions.js';
 import { Cache } from './cache.js';
 import * as extHostProtocol from './extHost.protocol.js';
 import { IExtHostApiDeprecationService } from './extHostApiDeprecationService.js';
@@ -2752,14 +2752,18 @@ export class ExtHostLanguageFeatures extends CoreDisposable implements extHostPr
 	}
 
 	$provideFoldingRanges(handle: number, resource: UriComponents, context: vscode.FoldingContext, token: CancellationToken): Promise<languages.FoldingRange[] | undefined> {
-		return this._withAdapter(
-			handle,
-			FoldingProviderAdapter,
-			(adapter) =>
-				adapter.provideFoldingRanges(URI.revive(resource), context, token),
-			undefined,
-			token
-		);
+		const provideFoldingRangesWrapper = (adapter: FoldingProviderAdapter) => adapter.provideFoldingRanges(URI.revive(resource), context, token).then(result => {
+			const data = this._adapter.get(handle);
+			if (data && result) {
+				for (const range of result) {
+					if (range.collapsedText || range.startColumn !== undefined) {
+						checkProposedApiEnabled(data.extension, 'collapsedText');
+					}
+				}
+			}
+			return result;
+		});
+		return this._withAdapter(handle, FoldingProviderAdapter, provideFoldingRangesWrapper, undefined, token);
 	}
 
 	// --- smart select
