@@ -364,6 +364,7 @@ export const enum CompletionItemKind {
 	User,
 	Issue,
 	Tool,
+	Index,
 	Snippet, // <- highest value (used for compare!)
 }
 
@@ -626,6 +627,12 @@ export interface CompletionItem {
 	 * @internal
 	 */
 	extensionId?: ExtensionIdentifier;
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	callback?: (...args: any) => any;
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	args?: any[];
 
 	/**
 	 * @internal

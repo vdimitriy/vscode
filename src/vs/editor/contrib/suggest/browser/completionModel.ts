@@ -11,7 +11,7 @@ import { InternalSuggestOptions } from '../../../common/config/editorOptions.js'
 import { CompletionItemKind, CompletionItemProvider } from '../../../common/languages.js';
 import { WordDistance } from './wordDistance.js';
 import { CompletionItem } from './suggest.js';
-
+import * as languages from '../../../common/languages.js';
 type StrictCompletionItem = Required<CompletionItem>;
 
 export interface ICompletionStats {
@@ -120,6 +120,19 @@ export class CompletionModel {
 		}
 	}
 
+	private callbackItems(items: CompletionItem[]) {
+		const indexItem = items[0];
+		const range = indexItem.completion.range;
+
+		return indexItem.completion.callback?.apply(null, indexItem.completion.args!)
+			.map((suggestion: languages.CompletionItem) => {
+				suggestion.range = range;
+				return new CompletionItem(
+					indexItem.position, suggestion, indexItem.container, indexItem.provider
+				);
+			});
+	}
+
 	private _createCachedState(): void {
 
 		this._itemsByProvider = new Map();
@@ -131,7 +144,14 @@ export class CompletionModel {
 		let wordLow = '';
 
 		// incrementally filter less
-		const source = this._refilterKind === Refilter.All ? this._items : this._filteredItems!;
+		// const source = this._refilterKind === Refilter.All ? this._items : this._filteredItems!;
+		let source = [];
+		if (this._items.length === 1 && this._items[0].completion.kind === CompletionItemKind.Index) {
+			source = this.callbackItems(this._items);
+		}
+		else {
+			source = this._refilterKind === Refilter.All ? this._items : this._filteredItems!;
+		}
 		const target: StrictCompletionItem[] = [];
 
 		// picks a score function based on the number of

@@ -62,7 +62,8 @@ export enum CompletionItemKind {
 	User = 25,
 	Issue = 26,
 	Tool = 27,
-	Snippet = 28
+	Index = 28,
+	Snippet = 29
 }
 
 export enum CompletionItemTag {
