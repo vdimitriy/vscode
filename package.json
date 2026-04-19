@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "build-monaco": "gulp editor-distro",
+    "postbuild-monaco": "node -e \"const fs=require('fs'),p='out-monaco-editor-core/package.json',c=fs.readFileSync(p,'utf8');fs.writeFileSync(p,c.replace('\\\"name\\\": \\\"monaco-editor-core\\\"','\\\"name\\\": \\\"@jq/monaco-editor-core\\\"'),'utf8');\"",
     "copy-monaco": "rmdir /s/q ..\\1ceditor\\lib\\monaco\\ & xcopy out-monaco-editor-core\\esm\\vs ..\\1ceditor\\lib\\monaco\\ /s/h/e/k/f/c",
     "test": "echo Please run any of the test scripts from the scripts folder.",
     "test-browser": "npx playwright install && node test/unit/browser/index.js",
